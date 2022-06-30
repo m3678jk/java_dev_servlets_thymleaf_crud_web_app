@@ -1,0 +1,7 @@
+{
+  "dbUrl": "jdbc:mysql://127.0.0.1:3306/home_work_3",
+  "dbUser":  "root",
+  "dbPass": "1234",
+  "initDbSql": "./initDB.sql"
+  
+}
