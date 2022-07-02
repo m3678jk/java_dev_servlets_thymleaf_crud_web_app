@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">>
+<head>
+<title>Add New Developer</title>
+<meta charset="utf-8" />
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
+</head>
+<body>
+
+	<header>
+		<nav class="navbar navbar-expand-md navbar-dark"
+			style="background-color: tomato">
+			<div>
+				<a href="https://www.javaguides.net" class="navbar-brand"> Developer Management</a>
+			</div>
+
+			<ul class="navbar-nav">
+				<li><a href="</test"
+					class="nav-link">Developers</a></li>
+			</ul>
+		</nav>
+	</header>
+	<br>
+	<div class="container col-md-5">
+		<div class="card">
+			<div  class="card-body">
+			    <form th:action="test?action=insert"  method="post">
+
+
+                    <fieldset class="form-group">
+                        <label>Developer First Name</label>  <input type="text"
+                        name="firstName"  value="James Carrot" th:value="${existingDev.firstName}" class="form-control"
+                         required="required">
+                    </fieldset>
+
+<!--                     <fieldset class="form-group" > -->
+<!--                         <label>Developer Second Name</label> <input type="text" -->
+<!--                          name="secondName" th:field="${existingDev.secondName}" class="form-control" -->
+<!--                              required="required"> -->
+<!--                     </fieldset> -->
+
+<!--                     <fieldset class="form-group"> -->
+<!--                         <label>Age</label> <input type="text" -->
+<!--                           name="age"  th:field="${existingDev.age}" class="form-control" -->
+<!--                            required="required"> -->
+<!--                     </fieldset> -->
+
+<!--                     <fieldset class="form-group"> -->
+<!--                         <label>Sex</label> <input type="text" -->
+<!--                            name="sex" th:field="${existingDev.sex}" class="form-control" -->
+
+<!--                              required="required"> -->
+<!--                     </fieldset> -->
+
+<!--                     <fieldset class="form-group"> -->
+<!--                         <label>Salary</label> <input type="text" -->
+<!--                          name="salary"  th:field="${existingDev.salary}" class="form-control" -->
+<!--                           required="required"> -->
+<!--                     </fieldset> -->
+
+                    <button type="submit" class="btn btn-success">Save</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

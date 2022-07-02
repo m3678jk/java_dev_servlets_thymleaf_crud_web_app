@@ -5,13 +5,11 @@ import model.commandsDB.entity.Developer;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import org.thymeleaf.context.WebContext;
-import thymeleaf.conf.TemplateEngineUtil;
+import org.thymeleaf.templateresolver.FileTemplateResolver;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContextEvent;
+
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebListener;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -34,16 +32,15 @@ public class DeveloperServletThym extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-//        engine = new TemplateEngine();
-//
-//        FileTemplateResolver resolver = new FileTemplateResolver();
-//        //TODO change the path
-//        resolver.setPrefix("templates/");
-//        resolver.setSuffix(".html");
-//        resolver.setTemplateMode("HTML5");
-//        resolver.setOrder(engine.getTemplateResolvers().size());
-//        resolver.setCacheable(false);
-//        engine.addTemplateResolver(resolver);
+        engine = new TemplateEngine();
+        FileTemplateResolver resolver = new FileTemplateResolver();
+        //TODO change the path
+        resolver.setPrefix("C:\\Java\\jm\\maven-test\\servlets-hw-6\\servlets-hw-6\\src\\main\\resources\\templates\\");
+        resolver.setSuffix(".html");
+        resolver.setTemplateMode("HTML5");
+        resolver.setOrder(engine.getTemplateResolvers().size());
+        resolver.setCacheable(false);
+        engine.addTemplateResolver(resolver);
     }
 
 
@@ -71,7 +68,7 @@ public class DeveloperServletThym extends HttpServlet {
             case "edit":
                 showEditForm(req, resp);
             case "update":
-                updateDeveloper(req,resp);
+                updateDeveloper(req, resp);
             default:
                 listUser(req, resp);
                 break;
@@ -79,19 +76,26 @@ public class DeveloperServletThym extends HttpServlet {
     }
 
     private void showNewForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher dispatcher = req.getRequestDispatcher("developer-form.jsp");
-        dispatcher.forward(req, resp);
+        Context ctx = new Context(req.getLocale(), Map.of(
+                "existingDev", "rr"));
+        engine.process("dev-new-form", ctx, resp.getWriter());
+        resp.getWriter().close();
     }
 
     private void showEditForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
         System.out.println(id);
         Developer existingDeveloper = (Developer) service.getCommandsDevelopers().selectData(id);
-        System.out.println(existingDeveloper);
-        RequestDispatcher dispatcher = req.getRequestDispatcher("developer-form.jsp");
-        req.setAttribute("id", id);
-        req.setAttribute("developer", existingDeveloper);
-        dispatcher.forward(req, resp);
+        System.out.println(existingDeveloper+ "in showEdit");
+        String firstName = existingDeveloper.getFirstName();
+        Context ctx = new Context(req.getLocale(), Map.of(
+                "existingDev", existingDeveloper));
+        ctx.setVariable("id", id);
+        resp.setContentType("text/html");
+        engine.process("test", ctx, resp.getWriter());
+        resp.getWriter().close();
+
+
     }
 
     private void insertDeveloper(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -110,38 +114,34 @@ public class DeveloperServletThym extends HttpServlet {
         resp.sendRedirect("/developers");
     }
 
-    private void updateDeveloper(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        int id = Integer.getInteger(req.getParameter("id"));
+    private void updateDeveloper(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        String idString =  req.getParameter("id");
+        int id = Integer.parseInt(idString);
         String firstName = req.getParameter("firstName");
         String secondName = req.getParameter("secondName");
-        int age = Integer.parseInt(req.getParameter("age"));
-        Developer.Sex sex = Developer.Sex.valueOf(req.getParameter("Sex"));
+        String ageString = req.getParameter("age");
+        int age = Integer.parseInt(ageString);
+        Developer.Sex sex = Developer.Sex.valueOf(req.getParameter("sex"));
         int salary = Integer.parseInt(req.getParameter("salary"));
         Developer dev = new Developer(firstName, secondName, age, sex, salary);
+        System.out.println(dev+ "update dev" );
         service.getCommandsDevelopers().updateData(id, dev);
-        resp.sendRedirect("/developers");
+        listUser(req,resp);
 
     }
-    private void deleteDeveloper(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+
+    private void deleteDeveloper(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         int id = Integer.parseInt(req.getParameter("id"));
         service.getCommandsDevelopers().delete(id);
-        resp.sendRedirect("/developers");
+        listUser(req,resp);
 
     }
 
     private void listUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-//        TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
-//        WebContext context = new WebContext(request, response, request.getServletContext());
-//        context.setVariable("recipient", "World");
-//        engine.process("index.html", context, response.getWriter());
-        TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         Map listDevelopers = service.getCommandsDevelopers().selectAllData("id");
         System.out.println(listDevelopers);
-        WebContext ctx = new WebContext(req, resp, req.getServletContext());
-        ctx.setVariable("listDevelopers", listDevelopers);
-       // resp.setContentType("text/html");
-
+        Context ctx = new Context(req.getLocale(), Map.of("list", listDevelopers));
+        resp.setContentType("text/html");
         engine.process("dev-list", ctx, resp.getWriter());
         resp.getWriter().close();
 
