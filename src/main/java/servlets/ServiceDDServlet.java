@@ -24,9 +24,7 @@ public class ServiceDDServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        String id = "3";
-//        int sumOfSalary = service.getOperationOnDB().getSumOfSalary(Integer.getInteger(id));
-        resp.getWriter().print("get request text");
+        resp.getWriter().print("enter correct ID");
         resp.getWriter().close();
     }
 

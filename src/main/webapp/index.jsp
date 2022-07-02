@@ -7,9 +7,22 @@
     	crossorigin="anonymous">
 </head>
 <body>
+<header>
+		<nav class="navbar navbar-expand-md navbar-dark"
+			style="background-color: tomato">
+			<div>
+				<a href="https://www.javaguides.net" class="navbar-brand">Company Manager</a>
+			</div>
 
 
- <br/><br/>
+		</nav>
+	</header>
+	<br>
+	<br>
+<div class="container col-md-5">
+		<div class="card">
+			<div class="card-body">
+
  <a href="/companies"><center>Companies</center></a>
    <br/>
  <a href="/developers"><center>Developers</center></a>
@@ -24,15 +37,35 @@
    <br/>
  <a href="/customerProject"><center>Customer&Project</center></a>
    <br/>
- <a href="/nonCrudRequests"><center>Additional requests</center></a>
-
-    <br/><br/>
-
-    <form action="salary" method="post">
-        id: <input type="text" size="5" name="id"/>
+<a> <center>--------------------</center></a>
+   <br/>
+ <a href="/??"><center>List of <MID> developers</center></a>
+ <br/>
+ <a href="/??"><center>List of JAVA developers</center></a>
+ <br/>
+ <a href="/??"><center>List of projects</center></a>
+    <br/>
+ <a> <center>--------------------</center></a>
+   <br/>
+    <form action="salary" method="post"><center>
+        <a>Sum of all developers' salaries by project id</a>
+        : <input type="text" size="5" name="id"/>
         &nbsp;&nbsp;
 
-        <input type="submit" value="get sum of salary of project id" />
+        <input type="submit" class="btn btn-success" value="get" /><center>
     </form>
+    <br/>
+    <form action=".." method="post"><center>
+            <a>List of developers on project id</a>
+            : <input type="text" size="5" name="id"/>
+            &nbsp;&nbsp;
+
+            <input type="submit" class="btn btn-success"value="get" /><center>
+        </form>
+      <br/>
+			</div>
+		</div>
+	</div>
+	<br>
 </body>
 </html>

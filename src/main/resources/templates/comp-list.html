@@ -29,35 +29,29 @@
         <div class="row">
             <!-- <div class="alert alert-success" *ngIf='message'>{{message}}</div> -->
             <div class="container">
-                <h3 class="text-center">List of Developers</h3>
+                <h3 class="text-center">List of Companies</h3>
                 <hr>
                 <div class="container text-left">
-                    <a href="developers?action=new" class="btn btn-success">Add
-                        New Developer</a>
+                    <a href="companies?action=new" class="btn btn-success">Add
+                        New Company</a>
                 </div>
                 <br>
                 <table class="table table-bordered">
                       <thead>
                         <tr>
                             <th>ID</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Age</th>
-                            <th>Sex</th>
-                            <th>Salary</th>
+                            <th>Name</th>
+                            <th>Address</th>
                             <th>Actions</th>
                            </tr>
                         </thead>
                         <tbody>
-                             <tr th:each ="dev : ${list}">
-                                <td th:text="${dev.key}"></td>
-                                <td th:text="${dev.value.firstName}">First Name</td>
-                                <td th:text="${dev.value.secondName}">Last Name</td>
-                                <td th:text="${dev.value.age}"></td>
-                                <td th:text="${dev.value.sex}">Sex</td>
-                                <td th:text="${dev.value.salary}">Salary</td>
-                                <td><a th:href="'/developers?action=edit&id=' + ${dev.key}">Edit</a>
-                                <a th:href="'/developers?action=delete&id='+ ${dev.key}">Delete</a></td>
+                             <tr th:each ="com : ${list}">
+                                <td th:text="${com.key}"></td>
+                                <td th:text="${com.value.name}">Name</td>
+                                <td th:text="${com.value.address}">Address</td>
+                                <td><a th:href="'/companies?action=edit&id=' + ${com.key}">Edit</a>
+                                <a th:href="'/companies?action=delete&id='+ ${com.key}">Delete</a></td>
                              </tr>
                         </tbody>
                 </table>

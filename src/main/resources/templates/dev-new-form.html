@@ -19,7 +19,7 @@
 			</div>
 
 			<ul class="navbar-nav">
-				<li><a href="</test"
+				<li><a href="/developers"
 					class="nav-link">Developers</a></li>
 			</ul>
 		</nav>
@@ -28,41 +28,42 @@
 	<div class="container col-md-5">
 		<div class="card">
 			<div  class="card-body">
-			    <form th:action="test?action=insert"  method="post">
+			    <form th:action="'developers?action=insert'"  method="post">
+
 
 
                     <fieldset class="form-group">
                         <label>Developer First Name</label>  <input type="text"
-                        name="firstName"  value="James Carrot" th:value="${existingDev.firstName}" class="form-control"
+                        name="firstName" th:value="${firstName}" class="form-control"
                          required="required">
                     </fieldset>
 
-<!--                     <fieldset class="form-group" > -->
-<!--                         <label>Developer Second Name</label> <input type="text" -->
-<!--                          name="secondName" th:field="${existingDev.secondName}" class="form-control" -->
-<!--                              required="required"> -->
-<!--                     </fieldset> -->
+                    <fieldset class="form-group" >
+                        <label>Developer Second Name</label> <input type="text"
+                         name="secondName" th:value="${secondName}" class="form-control"
+                             required="required">
+                    </fieldset>
 
-<!--                     <fieldset class="form-group"> -->
-<!--                         <label>Age</label> <input type="text" -->
-<!--                           name="age"  th:field="${existingDev.age}" class="form-control" -->
-<!--                            required="required"> -->
-<!--                     </fieldset> -->
+                    <fieldset class="form-group">
+                        <label>Age</label> <input type="text"
+                          name="age"  th:value="${age}" class="form-control"
+                           required="required">
+                    </fieldset>
 
-<!--                     <fieldset class="form-group"> -->
-<!--                         <label>Sex</label> <input type="text" -->
-<!--                            name="sex" th:field="${existingDev.sex}" class="form-control" -->
+                    <fieldset class="form-group">
+                        <label>Sex</label> <input type="text"
+                           name="sex" th:value="${sex}" class="form-control"
 
-<!--                              required="required"> -->
-<!--                     </fieldset> -->
+                             required="required">
+                    </fieldset>
 
-<!--                     <fieldset class="form-group"> -->
-<!--                         <label>Salary</label> <input type="text" -->
-<!--                          name="salary"  th:field="${existingDev.salary}" class="form-control" -->
-<!--                           required="required"> -->
-<!--                     </fieldset> -->
+                    <fieldset class="form-group">
+                        <label>Salary</label> <input type="text"
+                         name="salary"  th:value="${salary}" class="form-control"
+                          required="required">
+                    </fieldset>
 
-                    <button type="submit" class="btn btn-success">Save</button>
+                    <button type="submit"  class="btn btn-success">Save</button>
 				</form>
 			</div>
 		</div>

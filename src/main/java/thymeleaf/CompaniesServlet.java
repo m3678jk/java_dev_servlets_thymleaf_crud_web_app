@@ -1,13 +1,11 @@
 package thymeleaf;
 
 import model.ServiceDB;
-import model.commandsDB.entity.Developer;
+import model.commandsDB.entity.Company;
+
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-
 import org.thymeleaf.templateresolver.FileTemplateResolver;
-
-import javax.servlet.RequestDispatcher;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,12 +16,12 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Map;
 
-@WebServlet("/test")
-public class DeveloperServletThym extends HttpServlet {
+@WebServlet("/companies")
+public class CompaniesServlet extends HttpServlet {
     private TemplateEngine engine;
 
     private ServiceDB service;
-    private Developer developer;
+    private Company company;
 
     @Override
     public void init() throws ServletException {
@@ -60,15 +58,15 @@ public class DeveloperServletThym extends HttpServlet {
                 showNewForm(req, resp);
                 break;
             case "insert":
-                insertDeveloper(req, resp);
+                insertCompany(req, resp);
                 break;
             case "delete":
-                deleteDeveloper(req, resp);
+                deleteCompany(req, resp);
                 break;
             case "edit":
                 showEditForm(req, resp);
             case "update":
-                updateDeveloper(req, resp);
+                updateCompany(req, resp);
             default:
                 listUser(req, resp);
                 break;
@@ -77,72 +75,60 @@ public class DeveloperServletThym extends HttpServlet {
 
     private void showNewForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Context ctx = new Context(req.getLocale(), Map.of(
-                "existingDev", "rr"));
-        engine.process("dev-new-form", ctx, resp.getWriter());
+                "existingComp", new Company("enter name", "address")));
+        resp.setContentType("text/html");
+        engine.process("comp-new-form", ctx, resp.getWriter());
         resp.getWriter().close();
     }
 
     private void showEditForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
         System.out.println(id);
-        Developer existingDeveloper = (Developer) service.getCommandsDevelopers().selectData(id);
-        System.out.println(existingDeveloper+ "in showEdit");
-        String firstName = existingDeveloper.getFirstName();
+        Company existingComp = (Company) service.getCommandsCompanies().selectData(id);
         Context ctx = new Context(req.getLocale(), Map.of(
-                "existingDev", existingDeveloper));
+                "existingComp", existingComp));
         ctx.setVariable("id", id);
         resp.setContentType("text/html");
-        engine.process("test", ctx, resp.getWriter());
+        engine.process("comp-edit-form", ctx, resp.getWriter());
         resp.getWriter().close();
 
 
     }
 
-    private void insertDeveloper(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        Context ctx = new Context(req.getLocale(), Map.of("name", "some name"));
-        resp.setContentType("text/html");
-        engine.process("test", ctx, resp.getWriter());
-        resp.getWriter().close();
+    private void insertCompany(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        String name = req.getParameter("name");
+        String address = req.getParameter("address");
+        Company com = new Company(name, address);
 
-        String firstName = req.getParameter("firstName");
-        String secondName = req.getParameter("secondName");
-        int age = Integer.parseInt(req.getParameter("age"));
-        Developer.Sex sex = Developer.Sex.valueOf(req.getParameter("sex"));
-        int salary = Integer.parseInt(req.getParameter("salary"));
-        developer = new Developer(firstName, secondName, age, sex, salary);
-        service.getCommandsDevelopers().insertData(developer);
-        resp.sendRedirect("/developers");
+        service.getCommandsCompanies().insertData(com);
+        listUser(req, resp);
     }
 
-    private void updateDeveloper(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        String idString =  req.getParameter("id");
+    private void updateCompany(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        String idString = req.getParameter("id");
         int id = Integer.parseInt(idString);
-        String firstName = req.getParameter("firstName");
-        String secondName = req.getParameter("secondName");
-        String ageString = req.getParameter("age");
-        int age = Integer.parseInt(ageString);
-        Developer.Sex sex = Developer.Sex.valueOf(req.getParameter("sex"));
-        int salary = Integer.parseInt(req.getParameter("salary"));
-        Developer dev = new Developer(firstName, secondName, age, sex, salary);
-        System.out.println(dev+ "update dev" );
-        service.getCommandsDevelopers().updateData(id, dev);
-        listUser(req,resp);
+        System.out.println(id);
+        String name = req.getParameter("name");
+        String address = req.getParameter("address");
+        Company comp = new Company(name, address);
+        service.getCommandsCompanies().updateData(id, comp);
+        listUser(req, resp);
 
     }
 
-    private void deleteDeveloper(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    private void deleteCompany(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         int id = Integer.parseInt(req.getParameter("id"));
-        service.getCommandsDevelopers().delete(id);
-        listUser(req,resp);
+        service.getCommandsCompanies().delete(id);
+        listUser(req, resp);
 
     }
 
     private void listUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Map listDevelopers = service.getCommandsDevelopers().selectAllData("id");
-        System.out.println(listDevelopers);
-        Context ctx = new Context(req.getLocale(), Map.of("list", listDevelopers));
+        Map listCompanies = service.getCommandsCompanies().selectAllData("id_company");
+        System.out.println(listCompanies);
+        Context ctx = new Context(req.getLocale(), Map.of("list", listCompanies));
         resp.setContentType("text/html");
-        engine.process("dev-list", ctx, resp.getWriter());
+        engine.process("comp-list", ctx, resp.getWriter());
         resp.getWriter().close();
 
     }
