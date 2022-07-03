@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
+<head>
+<title>Project Management</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
+</head>
+
+<body>
+     <header>
+        <nav class="navbar navbar-expand-md navbar-dark"
+             style="background-color: tomato">
+            <div>
+                <a href="https://www.javaguides.net" class="navbar-brand"> Project Management</a>
+            </div>
+
+            <ul class="navbar-nav">
+                <li><a href="/"
+                       class="nav-link">Main menu</a></li>
+            </ul>
+        </nav>
+    </header>
+    <br>
+
+
+        <div class="row">
+            <!-- <div class="alert alert-success" *ngIf='message'>{{message}}</div> -->
+            <div class="container">
+                <h3 class="text-center">List of Projects</h3>
+                <hr>
+                <div class="container text-left">
+                    <a href="projects?action=new" class="btn btn-success">Add
+                    New Project</a>
+                </div>
+                <br>
+                <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Date of start</th>
+                            <th>Actions</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                             <tr th:each ="proj : ${list}">
+                                <td th:text="${proj.key}"></td>
+                                <td th:text="${proj.value.nameOfProject}"></td>
+                                <td th:text="${proj.value.description}"></td>
+                                <td th:text="${proj.value.date}"></td>
+                                <td><a th:href="'/projects?action=edit&id=' + ${proj.key}">Edit</a>
+                                <a th:href="'/projects?action=delete&id='+ ${proj.key}">Delete</a></td>
+                             </tr>
+                        </tbody>
+                </table>
+            </div>
+        </div>
+</body>
+
+</html>

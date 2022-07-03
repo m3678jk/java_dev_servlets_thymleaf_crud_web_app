@@ -26,7 +26,7 @@ public class CommandsProject extends Commands {
         try {
             insertSt.setString(1, project.getNameOfProject());
             insertSt.setString(2, project.getDescription());
-            insertSt.setString(3, project.getDate().toString());
+            insertSt.setString(3, project.getDate());
 
             return insertSt.executeUpdate() == 1;
         } catch (SQLException e) {
@@ -48,7 +48,7 @@ public class CommandsProject extends Commands {
             }
             return new Project(resultSet.getString("name_of_project"),
                     resultSet.getString("description"),
-                    LocalDate.parse(resultSet.getString("start_date")));
+                    resultSet.getString("start_date"));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -62,7 +62,7 @@ public class CommandsProject extends Commands {
             try {
                 updateSt.setString(1, project.getNameOfProject());
                 updateSt.setString(2, project.getDescription());
-                updateSt.setString(3, project.getDate().toString());
+                updateSt.setString(3, project.getDate());
                 updateSt.setInt(4, id);
 
                 return updateSt.executeUpdate() == 1;
