@@ -26,7 +26,7 @@ public class CommandsProject extends Commands {
         try {
             insertSt.setString(1, project.getNameOfProject());
             insertSt.setString(2, project.getDescription());
-            insertSt.setString(3, project.getDate());
+            insertSt.setString(3, project.getDate()); //TODO to fix local date implementation with thymeleaf
 
             return insertSt.executeUpdate() == 1;
         } catch (SQLException e) {

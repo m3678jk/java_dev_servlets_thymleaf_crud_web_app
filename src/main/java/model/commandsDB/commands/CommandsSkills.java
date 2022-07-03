@@ -63,8 +63,8 @@ public class CommandsSkills extends Commands {
             try {
                 updateSt.setInt(1, skills.getIdDev());
                 updateSt.setString(2, skills.getTechnology().name());
-                updateSt.setString(6, skills.getLevelOfPosition());
-                updateSt.setInt(7, id);
+                updateSt.setString(3, skills.getLevelOfPosition());
+                updateSt.setInt(4, id);
 
                 return updateSt.executeUpdate() == 1;
             } catch (SQLException e) {

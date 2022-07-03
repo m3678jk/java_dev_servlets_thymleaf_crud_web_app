@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
+<head>
+<title>Edit Project</title>
+<meta charset="utf-8" />
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
+</head>
+<body>
+
+	<header>
+		<nav class="navbar navbar-expand-md navbar-dark"
+			style="background-color: tomato">
+			<div>
+				<a href="https://www.javaguides.net" class="navbar-brand"> Skills Management</a>
+			</div>
+
+			<ul class="navbar-nav">
+				<li><a href="/skills"
+					class="nav-link">Skills</a></li>
+			</ul>
+		</nav>
+	</header>
+	<br>
+	<div class="container col-md-5">
+		<div class="card">
+			<div  class="card-body">
+			    <form th:action="'skills?action=update&id=' + ${id}"  method="post">
+
+                    <div >
+                        <input type="hidden" name="id" th:value="${id}">
+                    </div>
+
+                    <fieldset class="form-group">
+                        <label>Developer ID</label>  <input type="text"
+                        name="idDev" th:value="${existingSkills.idDev}" class="form-control"
+                         required="required">
+                    </fieldset>
+
+                    <fieldset class="form-group" >
+                        <label>Technology:</label>
+
+                         <select name="technology" required="required">
+                                                           <option th:value="${existingSkills.technology}" th:text="${existingSkills.technology}"></option>
+                                                           <option th:value="'Java'" th:text="Java"></option>
+                                                           <option th:value="'JS'" th:text="JS"></option>
+                                                           <option th:value="'C_PLUS_PLUS'" th:text="'C++'"></option>
+                                                           <option th:value="'C_SHARP'" th:text="'C#'"></option>
+
+                                                       </select>
+                    </fieldset>
+
+                    <fieldset class="form-group" >
+                        <label>Level of position:</label>
+
+                         <select name="levelOfPosition" required="required">
+                                                           <option th:value="${existingSkills.levelOfPosition}" th:text="${existingSkills.levelOfPosition}"></option>
+                                                           <option th:value="Senior" th:text="Senior"></option>
+                                                           <option th:value="Middle" th:text="Middle"></option>
+                                                           <option th:value="Junior" th:text="'Junior'"></option>
+                                                   </select>
+
+
+                    </fieldset>
+
+                    <button type="submit" th:value="${id}" class="btn btn-success">Save</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

@@ -9,7 +9,7 @@ import java.time.LocalDate;
 public class Project  {
     private String nameOfProject;
     private String description;
-    private String date;
+    private String date; //TODO to fix local date implementation with thymeleaf
 
     public final static Project INCORRECT_QUERY = new Project("error", "error", LocalDate.now().toString());
 

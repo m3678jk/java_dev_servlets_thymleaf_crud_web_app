@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
+<head>
+<title>Skills Management</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
+</head>
+
+<body>
+     <header>
+        <nav class="navbar navbar-expand-md navbar-dark"
+             style="background-color: tomato">
+            <div>
+                <a href="https://www.javaguides.net" class="navbar-brand"> Skills Management</a>
+            </div>
+
+            <ul class="navbar-nav">
+                <li><a href="/"
+                       class="nav-link">Main menu</a></li>
+            </ul>
+        </nav>
+    </header>
+    <br>
+
+
+        <div class="row">
+            <!-- <div class="alert alert-success" *ngIf='message'>{{message}}</div> -->
+            <div class="container">
+                <h3 class="text-center">List of Skills</h3>
+                <hr>
+                <div class="container text-left">
+                    <a href="skills?action=new" class="btn btn-success">Add
+                    New Project</a>
+                </div>
+                <br>
+                <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Developer ID</th>
+                            <th>Technology</th>
+                            <th>Level of position</th>
+                            <th>Actions</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                             <tr th:each ="sk : ${list}">
+                                <td th:text="${sk.key}"></td>
+                                <td th:text="${sk.value.idDev}"></td>
+                                <td th:text="${sk.value.technology}"></td>
+                                <td th:text="${sk.value.levelOfPosition}"></td>
+
+                                <td><a th:href="'/skills?action=edit&id=' + ${sk.key}">Edit</a>
+                                <a th:href="'/skills?action=delete&id='+ ${sk.key}">Delete</a></td>
+                             </tr>
+                        </tbody>
+                </table>
+            </div>
+        </div>
+</body>
+
+</html>
