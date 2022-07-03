@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.thymeleaf.org ">>
 <head>
-<title>Edit Company&Project</title>
+<title>Add New Project&Developer </title>
 <meta charset="utf-8" />
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -15,12 +15,12 @@
 		<nav class="navbar navbar-expand-md navbar-dark"
 			style="background-color: tomato">
 			<div>
-				<a href="https://www.javaguides.net" class="navbar-brand"> Company&Project Management</a>
+				<a href="https://www.javaguides.net" class="navbar-brand"> Project&Developer  Management</a>
 			</div>
 
 			<ul class="navbar-nav">
-				<li><a href="/companyProject"
-					class="nav-link">Company&Project</a></li>
+				<li><a href="/projectDeveloper"
+					class="nav-link">Project&Developer</a></li>
 			</ul>
 		</nav>
 	</header>
@@ -28,27 +28,23 @@
 	<div class="container col-md-5">
 		<div class="card">
 			<div  class="card-body">
-			    <form th:action="'companyProject?action=update&id=' + ${id}"  method="post">
-
-                    <div >
-                        <input type="hidden" name="id" th:value="${id}">
-                    </div>
-
-                    <fieldset class="form-group">
-                        <label>Company ID</label>  <input type="text"
-                        name="companyId" th:value="${existingCompProj.companyId}" class="form-control"
-                         required="required">
-                    </fieldset>
+			    <form th:action="'projectDeveloper?action=insert'"  method="post">
 
                     <fieldset class="form-group" >
                         <label>Project ID</label> <input type="text"
-                         name="projectId" th:value="${existingCompProj.projectId}" class="form-control"
+                         name="projectId" th:value="${projectId}" class="form-control"
                              required="required">
                     </fieldset>
 
 
 
-                    <button type="submit" th:value="${id}" class="btn btn-success">Save</button>
+                    <fieldset class="form-group">
+                        <label>Developer ID</label>  <input type="text"
+                        name="developerId" th:value="${developerId}" class="form-control"
+                         required="required">
+                    </fieldset>
+
+                    <button type="submit"  class="btn btn-success">Save</button>
 				</form>
 			</div>
 		</div>

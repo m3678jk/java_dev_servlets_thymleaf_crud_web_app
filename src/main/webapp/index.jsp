@@ -31,7 +31,7 @@
    <br/>
  <a href="/projects"><center>Projects</center></a>
    <br/>
- <a href="/developerSkills"><center>Developers&Skills</center></a>
+ <a href="/projectDeveloper"><center>Project&Developer</center></a>
    <br/>
  <a href="/companyProject"><center>Company&Project</center></a>
    <br/>
