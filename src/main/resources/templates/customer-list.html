@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.thymeleaf.org ">
 <head>
-<title>Developer Management</title>
+<title>Company Management</title>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
@@ -29,11 +29,11 @@
         <div class="row">
             <!-- <div class="alert alert-success" *ngIf='message'>{{message}}</div> -->
             <div class="container">
-                <h3 class="text-center">List of Companies</h3>
+                <h3 class="text-center">List of Customers</h3>
                 <hr>
                 <div class="container text-left">
                     <a href="companies?action=new" class="btn btn-success">Add
-                        New Company</a>
+                        New Customer</a>
                 </div>
                 <br>
                 <table class="table table-bordered">
@@ -46,12 +46,12 @@
                            </tr>
                         </thead>
                         <tbody>
-                             <tr th:each ="com : ${list}">
-                                <td th:text="${com.key}"></td>
-                                <td th:text="${com.value.name}">Name</td>
-                                <td th:text="${com.value.address}">Address</td>
-                                <td><a th:href="'/companies?action=edit&id=' + ${com.key}">Edit</a>
-                                <a th:href="'/companies?action=delete&id='+ ${com.key}">Delete</a></td>
+                             <tr th:each ="cust : ${list}">
+                                <td th:text="${cust.key}"></td>
+                                <td th:text="${cust.value.name}">Name</td>
+                                <td th:text="${cust.value.address}">Address</td>
+                                <td><a th:href="'/customers?action=edit&id=' + ${cust.key}">Edit</a>
+                                <a th:href="'/customers?action=delete&id='+ ${cust.key}">Delete</a></td>
                              </tr>
                         </tbody>
                 </table>
