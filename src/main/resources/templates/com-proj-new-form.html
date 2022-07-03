@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">>
+<head>
+<title>Add New Company&Project </title>
+<meta charset="utf-8" />
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
+</head>
+<body>
+
+	<header>
+		<nav class="navbar navbar-expand-md navbar-dark"
+			style="background-color: tomato">
+			<div>
+				<a href="https://www.javaguides.net" class="navbar-brand"> Company&Project  Management</a>
+			</div>
+
+			<ul class="navbar-nav">
+				<li><a href="/companyProject"
+					class="nav-link">Company&Project </a></li>
+			</ul>
+		</nav>
+	</header>
+	<br>
+	<div class="container col-md-5">
+		<div class="card">
+			<div  class="card-body">
+			    <form th:action="'companyProject?action=insert'"  method="post">
+
+
+
+                    <fieldset class="form-group">
+                        <label>Company ID</label>  <input type="text"
+                        name="companyId" th:value="${companyId}" class="form-control"
+                         required="required">
+                    </fieldset>
+
+                    <fieldset class="form-group" >
+                        <label>Project ID</label> <input type="text"
+                         name="projectId" th:value="${projectId}" class="form-control"
+                             required="required">
+                    </fieldset>
+
+                    <button type="submit"  class="btn btn-success">Save</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

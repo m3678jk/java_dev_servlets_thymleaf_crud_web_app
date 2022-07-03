@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
+<head>
+<title>Company&Project Management</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
+</head>
+
+<body>
+     <header>
+        <nav class="navbar navbar-expand-md navbar-dark"
+             style="background-color: tomato">
+            <div>
+                <a href="https://www.javaguides.net" class="navbar-brand"> Company&Project Management</a>
+            </div>
+
+            <ul class="navbar-nav">
+                <li><a href="/"
+                       class="nav-link">Main menu</a></li>
+            </ul>
+        </nav>
+    </header>
+    <br>
+
+
+        <div class="row">
+            <!-- <div class="alert alert-success" *ngIf='message'>{{message}}</div> -->
+            <div class="container">
+                <h3 class="text-center">List of Company&Project </h3>
+                <hr>
+                <div class="container text-left">
+                    <a href="companyProject?action=new" class="btn btn-success">Add
+                        New Company</a>
+                </div>
+                <br>
+                <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Company ID</th>
+                            <th>Project ID</th>
+                            <th>Actions</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                             <tr th:each ="com : ${list}">
+                                <td th:text="${com.key}"></td>
+                                <td th:text="${com.value.companyId}"></td>
+                                <td th:text="${com.value.projectId}"></td>
+                                <td><a th:href="'/companyProject?action=edit&id=' + ${com.key}">Edit</a>
+                                <a th:href="'/companyProject?action=delete&id='+ ${com.key}">Delete</a></td>
+                             </tr>
+                        </tbody>
+                </table>
+            </div>
+        </div>
+</body>
+
+</html>
