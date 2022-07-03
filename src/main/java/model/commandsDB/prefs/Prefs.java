@@ -10,13 +10,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 // this class reads preferences which are saved in prefs.json file
-
 public class Prefs {
     public static final String DB_JDBC_CONNECTION_URL = "dbUrl";
     public static final String DB_JDBC_USER = "dbUser";
     public static final String DB_JDBC_PASSWORD = "dbPass";
-
-
     public static final String DEFAULT_PREFS_FILENAME = "prefs.json";
 
     private Map<String, Object> prefs = new HashMap<>();

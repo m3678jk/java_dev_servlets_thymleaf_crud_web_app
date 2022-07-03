@@ -23,7 +23,6 @@ public class ServiceDB {
         DatabaseConnector databaseConnector = DatabaseConnector.getDatabaseConnector();
         new DatabaseInitService().initDB(databaseConnector);
 
-
         commandsDevelopers = new CommandsDevelopers(databaseConnector,
                 CommandsDevelopers.INSERT, CommandsDevelopers.SELECT,
                 CommandsDevelopers.SELECT_ALL, CommandsDevelopers.DELETE,
@@ -70,6 +69,5 @@ public class ServiceDB {
                 CommandsCustomerProject.UPDATE);
 
         operationOnDB = new OperationOnDB(databaseConnector);
-
     }
 }

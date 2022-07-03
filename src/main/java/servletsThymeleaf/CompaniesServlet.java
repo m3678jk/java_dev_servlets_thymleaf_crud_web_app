@@ -21,9 +21,7 @@ import static servletsThymeleaf.Setting.PATH_TO_TEMPLATES;
 @WebServlet("/companies")
 public class CompaniesServlet extends HttpServlet {
     private TemplateEngine engine;
-
     private ServiceDB service;
-    private Company company;
 
     @Override
     public void init() throws ServletException {
@@ -42,7 +40,6 @@ public class CompaniesServlet extends HttpServlet {
         engine.addTemplateResolver(resolver);
     }
 
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         this.doGet(req, resp);
@@ -50,8 +47,6 @@ public class CompaniesServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-
         String action = req.getParameter("action") != null ? req.getParameter("action") : "none";
         System.out.println(action);
         switch (action) {
@@ -66,8 +61,10 @@ public class CompaniesServlet extends HttpServlet {
                 break;
             case "edit":
                 showEditForm(req, resp);
+                break;
             case "update":
                 updateCompany(req, resp);
+                break;
             default:
                 listUser(req, resp);
                 break;
@@ -84,7 +81,6 @@ public class CompaniesServlet extends HttpServlet {
 
     private void showEditForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
-        System.out.println(id);
         Company existingComp = (Company) service.getCommandsCompanies().selectData(id);
         Context ctx = new Context(req.getLocale(), Map.of(
                 "existingComp", existingComp));
@@ -100,7 +96,6 @@ public class CompaniesServlet extends HttpServlet {
         String name = req.getParameter("name");
         String address = req.getParameter("address");
         Company com = new Company(name, address);
-
         service.getCommandsCompanies().insertData(com);
         listUser(req, resp);
     }
@@ -108,29 +103,24 @@ public class CompaniesServlet extends HttpServlet {
     private void updateCompany(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String idString = req.getParameter("id");
         int id = Integer.parseInt(idString);
-        System.out.println(id);
         String name = req.getParameter("name");
         String address = req.getParameter("address");
         Company comp = new Company(name, address);
         service.getCommandsCompanies().updateData(id, comp);
         listUser(req, resp);
-
     }
 
     private void deleteCompany(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         int id = Integer.parseInt(req.getParameter("id"));
         service.getCommandsCompanies().delete(id);
         listUser(req, resp);
-
     }
 
     private void listUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Map listCompanies = service.getCommandsCompanies().selectAllData("id_company");
-        System.out.println(listCompanies);
         Context ctx = new Context(req.getLocale(), Map.of("list", listCompanies));
         resp.setContentType("text/html");
         engine.process("comp-list", ctx, resp.getWriter());
         resp.getWriter().close();
-
     }
 }

@@ -71,7 +71,6 @@ public class AdditionalCommandsServlet extends HttpServlet {
 
     private void listOfMidDevelopers(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Map list = service.getOperationOnDB().getListMidDev();
-        System.out.println(list);
         req.setAttribute("list", list);
         req.setAttribute("text", "middle");
 

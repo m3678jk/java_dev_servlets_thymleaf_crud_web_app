@@ -59,7 +59,7 @@ public class CommandsSkills extends Commands {
     @Override
     public boolean updateData(int id, Object object) {
         Skills skills = (Skills) object;
-        if(!selectData(id).equals(Skills.INCORRECT_QUERY)){
+        if (!selectData(id).equals(Skills.INCORRECT_QUERY)) {
             try {
                 updateSt.setInt(1, skills.getIdDev());
                 updateSt.setString(2, skills.getTechnology().name());

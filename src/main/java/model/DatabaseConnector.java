@@ -14,15 +14,11 @@ public class DatabaseConnector {
             String dbUrl = new Prefs().getString(Prefs.DB_JDBC_CONNECTION_URL);
             String dbUser = new Prefs().getString(Prefs.DB_JDBC_USER);
             String dbPass = new Prefs().getString(Prefs.DB_JDBC_PASSWORD);
-
-           // DatabaseConnector databaseConnector = DatabaseConnector.getDatabaseConnector();
-            connection = DriverManager.getConnection(dbUrl,dbUser,dbPass);
+                        connection = DriverManager.getConnection(dbUrl,dbUser,dbPass);
         }
-
         catch (Exception ex){
             ex.printStackTrace();
         }
-
     }
 
     public static DatabaseConnector getDatabaseConnector(){
@@ -31,15 +27,12 @@ public class DatabaseConnector {
     public Connection getConnection(){
         return connection;
     }
-
     public void close(){
         try {
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        ;
+
     }
-
-
 }

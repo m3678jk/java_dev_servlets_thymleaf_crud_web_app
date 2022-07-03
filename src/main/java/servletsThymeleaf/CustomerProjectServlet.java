@@ -20,7 +20,6 @@ import static servletsThymeleaf.Setting.PATH_TO_TEMPLATES;
 @WebServlet("/customerProject")
 public class CustomerProjectServlet extends HttpServlet {
     private TemplateEngine engine;
-
     private ServiceDB service;
 
     @Override
@@ -32,7 +31,6 @@ public class CustomerProjectServlet extends HttpServlet {
         }
         engine = new TemplateEngine();
         FileTemplateResolver resolver = new FileTemplateResolver();
-
         resolver.setPrefix(PATH_TO_TEMPLATES);
         resolver.setSuffix(".html");
         resolver.setTemplateMode("HTML5");
@@ -49,8 +47,6 @@ public class CustomerProjectServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-
         String action = req.getParameter("action") != null ? req.getParameter("action") : "none";
         System.out.println(action);
         switch (action) {
@@ -65,8 +61,10 @@ public class CustomerProjectServlet extends HttpServlet {
                 break;
             case "edit":
                 showEditForm(req, resp);
+                break;
             case "update":
                 update(req, resp);
+                break;
             default:
                 list(req, resp);
                 break;
@@ -83,7 +81,6 @@ public class CustomerProjectServlet extends HttpServlet {
 
     private void showEditForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
-        System.out.println(id);
         CustomerProject existingCustProj = (CustomerProject) service.getCommandsCustomerProject().selectData(id);
         Context ctx = new Context(req.getLocale(), Map.of(
                 "existingCustProj", existingCustProj));
@@ -91,17 +88,12 @@ public class CustomerProjectServlet extends HttpServlet {
         resp.setContentType("text/html");
         engine.process("cust-proj-edit-form", ctx, resp.getWriter());
         resp.getWriter().close();
-
-
     }
 
     private void insert(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         int customerId = Integer.parseInt(req.getParameter("customerId"));
-
         int projectId = Integer.parseInt(req.getParameter("projectId"));
-
         CustomerProject customerProject = new CustomerProject(customerId, projectId);
-        System.out.println(customerProject);
         service.getCommandsCustomerProject().insertData(customerProject);
         list(req, resp);
     }
@@ -112,26 +104,21 @@ public class CustomerProjectServlet extends HttpServlet {
         int customerId = Integer.parseInt(req.getParameter("customerId"));
         int projectId = Integer.parseInt(req.getParameter("projectId"));
         CustomerProject customerProject = new CustomerProject(customerId, projectId);
-
         service.getCommandsCustomerProject().updateData(id, customerProject);
         list(req, resp);
-
     }
 
     private void delete(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         int id = Integer.parseInt(req.getParameter("id"));
         service.getCommandsCustomerProject().delete(id);
         list(req, resp);
-
     }
 
     private void list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Map list = service.getCommandsCustomerProject().selectAllData("id_cus_pr");
-        System.out.println(list);
         Context ctx = new Context(req.getLocale(), Map.of("list", list));
         resp.setContentType("text/html");
         engine.process("cust-proj-list", ctx, resp.getWriter());
         resp.getWriter().close();
-
     }
 }

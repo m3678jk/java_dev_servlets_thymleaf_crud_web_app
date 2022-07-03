@@ -20,7 +20,6 @@ import static servletsThymeleaf.Setting.PATH_TO_TEMPLATES;
 @WebServlet("/projects")
 public class ProjectsServlet extends HttpServlet {
     private TemplateEngine engine;
-
     private ServiceDB service;
 
     @Override
@@ -40,7 +39,6 @@ public class ProjectsServlet extends HttpServlet {
         engine.addTemplateResolver(resolver);
     }
 
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         this.doGet(req, resp);
@@ -48,10 +46,7 @@ public class ProjectsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-
         String action = req.getParameter("action") != null ? req.getParameter("action") : "none";
-        System.out.println(action);
         switch (action) {
             case "new":
                 showNewForm(req, resp);
@@ -64,8 +59,10 @@ public class ProjectsServlet extends HttpServlet {
                 break;
             case "edit":
                 showEditForm(req, resp);
+                break;
             case "update":
                 update(req, resp);
+                break;
             default:
                 list(req, resp);
                 break;
@@ -74,15 +71,14 @@ public class ProjectsServlet extends HttpServlet {
 
     private void showNewForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Context ctx = new Context(req.getLocale(), Map.of(
-                "existingProj", new Project("enter name","description", "2021-07-07")));
+                "existingProj", new Project("enter name", "description", "2021-07-07")));
         resp.setContentType("text/html");
-               engine.process("project-new-form", ctx, resp.getWriter());
+        engine.process("project-new-form", ctx, resp.getWriter());
         resp.getWriter().close();
     }
 
     private void showEditForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
-        System.out.println(id);
         Project existingProj = (Project) service.getCommandsProject().selectData(id);
         Context ctx = new Context(req.getLocale(), Map.of(
                 "existingProj", existingProj));
@@ -90,8 +86,6 @@ public class ProjectsServlet extends HttpServlet {
         resp.setContentType("text/html");
         engine.process("project-edit-form", ctx, resp.getWriter());
         resp.getWriter().close();
-
-
     }
 
     private void insert(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
@@ -100,35 +94,31 @@ public class ProjectsServlet extends HttpServlet {
         String date = req.getParameter("date");
         Project proj = new Project(nameOfProject, description, date);
         service.getCommandsProject().insertData(proj);
-        list(req,resp);
+        list(req, resp);
     }
 
     private void update(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        String idString =  req.getParameter("id");
+        String idString = req.getParameter("id");
         int id = Integer.parseInt(idString);
         String nameOfProject = req.getParameter("nameOfProject");
         String description = req.getParameter("description");
         String date = req.getParameter("date");
         Project proj = new Project(nameOfProject, description, date);
-        service.getCommandsProject().updateData(id,proj);
-        list(req,resp);
-
+        service.getCommandsProject().updateData(id, proj);
+        list(req, resp);
     }
 
     private void delete(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         int id = Integer.parseInt(req.getParameter("id"));
         service.getCommandsProject().delete(id);
-        list(req,resp);
-
+        list(req, resp);
     }
 
     private void list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Map list = service.getCommandsProject().selectAllData("id_project");
-        System.out.println(list);
         Context ctx = new Context(req.getLocale(), Map.of("list", list));
         resp.setContentType("text/html");
         engine.process("project-list", ctx, resp.getWriter());
         resp.getWriter().close();
-
     }
 }

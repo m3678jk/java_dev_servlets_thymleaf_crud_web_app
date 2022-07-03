@@ -39,7 +39,6 @@ public class ProjectDeveloperServlet extends HttpServlet {
         engine.addTemplateResolver(resolver);
     }
 
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         this.doGet(req, resp);
@@ -47,10 +46,7 @@ public class ProjectDeveloperServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-
         String action = req.getParameter("action") != null ? req.getParameter("action") : "none";
-        System.out.println(action);
         switch (action) {
             case "new":
                 showNewForm(req, resp);
@@ -63,8 +59,10 @@ public class ProjectDeveloperServlet extends HttpServlet {
                 break;
             case "edit":
                 showEditForm(req, resp);
+                break;
             case "update":
                 update(req, resp);
+                break;
             default:
                 list(req, resp);
                 break;
@@ -81,7 +79,6 @@ public class ProjectDeveloperServlet extends HttpServlet {
 
     private void showEditForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
-        System.out.println(id);
         ProjectDeveloper existingProjDev = (ProjectDeveloper) service.getCommandsProjectDeveloper().selectData(id);
         Context ctx = new Context(req.getLocale(), Map.of(
                 "existingProjDev", existingProjDev));
@@ -89,18 +86,12 @@ public class ProjectDeveloperServlet extends HttpServlet {
         resp.setContentType("text/html");
         engine.process("proj-dev-edit-form", ctx, resp.getWriter());
         resp.getWriter().close();
-
-
     }
 
     private void insert(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-
         int projectId = Integer.parseInt(req.getParameter("projectId"));
         int developerId = Integer.parseInt(req.getParameter("developerId"));
-
-
         ProjectDeveloper projectDeveloper = new ProjectDeveloper(projectId, developerId);
-        System.out.println(projectDeveloper);
         service.getCommandsProjectDeveloper().insertData(projectDeveloper);
         list(req, resp);
     }
@@ -111,26 +102,21 @@ public class ProjectDeveloperServlet extends HttpServlet {
         int projectId = Integer.parseInt(req.getParameter("projectId"));
         int developerId = Integer.parseInt(req.getParameter("developerId"));
         ProjectDeveloper projectDeveloper = new ProjectDeveloper(projectId, developerId);
-
         service.getCommandsProjectDeveloper().updateData(id, projectDeveloper);
         list(req, resp);
-
     }
 
     private void delete(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         int id = Integer.parseInt(req.getParameter("id"));
         service.getCommandsProjectDeveloper().delete(id);
         list(req, resp);
-
     }
 
     private void list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Map list = service.getCommandsProjectDeveloper().selectAllData("id_pr_dev");
-        System.out.println(list);
         Context ctx = new Context(req.getLocale(), Map.of("list", list));
         resp.setContentType("text/html");
         engine.process("proj-dev-list", ctx, resp.getWriter());
         resp.getWriter().close();
-
     }
 }

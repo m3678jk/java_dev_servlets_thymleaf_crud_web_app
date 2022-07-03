@@ -21,9 +21,7 @@ import static servletsThymeleaf.Setting.PATH_TO_TEMPLATES;
 @WebServlet("/customers")
 public class CustomersServlet extends HttpServlet {
     private TemplateEngine engine;
-
     private ServiceDB service;
-    private Customer customer;
 
     @Override
     public void init() throws ServletException {
@@ -42,7 +40,6 @@ public class CustomersServlet extends HttpServlet {
         engine.addTemplateResolver(resolver);
     }
 
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         this.doGet(req, resp);
@@ -50,10 +47,7 @@ public class CustomersServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-
         String action = req.getParameter("action") != null ? req.getParameter("action") : "none";
-        System.out.println(action);
         switch (action) {
             case "new":
                 showNewForm(req, resp);
@@ -66,8 +60,10 @@ public class CustomersServlet extends HttpServlet {
                 break;
             case "edit":
                 showEditForm(req, resp);
+                break;
             case "update":
                 updateCustomer(req, resp);
+                break;
             default:
                 listUser(req, resp);
                 break;
@@ -84,7 +80,6 @@ public class CustomersServlet extends HttpServlet {
 
     private void showEditForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
-        System.out.println(id);
         Customer existingCustomer = (Customer) service.getCommandsCustomers().selectData(id);
         Context ctx = new Context(req.getLocale(), Map.of(
                 "existingCustomer", existingCustomer));
@@ -92,15 +87,12 @@ public class CustomersServlet extends HttpServlet {
         resp.setContentType("text/html");
         engine.process("customer-edit-form", ctx, resp.getWriter());
         resp.getWriter().close();
-
-
     }
 
     private void insertCustomer(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String name = req.getParameter("name");
         String address = req.getParameter("address");
         Company com = new Company(name, address);
-
         service.getCommandsCompanies().insertData(com);
         listUser(req, resp);
     }
@@ -108,29 +100,24 @@ public class CustomersServlet extends HttpServlet {
     private void updateCustomer(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String idString = req.getParameter("id");
         int id = Integer.parseInt(idString);
-        System.out.println(id);
         String name = req.getParameter("name");
         String address = req.getParameter("address");
         Customer customer = new Customer(name, address);
         service.getCommandsCustomers().updateData(id, customer);
         listUser(req, resp);
-
     }
 
     private void deleteCustomer(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         int id = Integer.parseInt(req.getParameter("id"));
         service.getCommandsCustomers().delete(id);
         listUser(req, resp);
-
     }
 
     private void listUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Map listCustomers = service.getCommandsCustomers().selectAllData("id_customer");
-        System.out.println(listCustomers);
         Context ctx = new Context(req.getLocale(), Map.of("list", listCustomers));
         resp.setContentType("text/html");
         engine.process("customer-list", ctx, resp.getWriter());
         resp.getWriter().close();
-
     }
 }

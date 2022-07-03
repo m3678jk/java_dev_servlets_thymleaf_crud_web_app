@@ -17,7 +17,6 @@ public class OperationOnDB {
     protected PreparedStatement getListOfMidDevSt;
     protected PreparedStatement getListOfProjectSt;
 
-
     public OperationOnDB(DatabaseConnector databaseConnector) throws SQLException {
         Connection connection = databaseConnector.getConnection();
         getSumOfSalarySt = connection.prepareStatement(GET_SUM_OF_SALARY_BY_ID_PROJECT_QUERY);
@@ -39,15 +38,14 @@ public class OperationOnDB {
                 System.out.println("incorrect id");
             }
             result = resultSet.getInt("sum_of_salary");
-
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
         return result;
     }
 
-    public Map<Long,Developer> getListOfDevelopers(int projectId) {
-        Map<Long,Developer> result = new HashMap<>();
+    public Map<Long, Developer> getListOfDevelopers(int projectId) {
+        Map<Long, Developer> result = new HashMap<>();
         try {
             getListOfDevelopersSt.setLong(1, projectId);
         } catch (SQLException e) {
@@ -61,7 +59,6 @@ public class OperationOnDB {
                         Developer.Sex.valueOf(resultSet.getString("sex").toUpperCase(Locale.ROOT)),
                         resultSet.getInt("salary"));
                 result.put(key, dev);
-
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -69,7 +66,7 @@ public class OperationOnDB {
         return result;
     }
 
-    public Map<Long,Developer> getListOfJavaDev() {
+    public Map<Long, Developer> getListOfJavaDev() {
         Map<Long, Developer> result = new HashMap<>();
         try (ResultSet resultSet = getListOfJavaDevSt.executeQuery()) {
             while (resultSet.next()) {
@@ -79,18 +76,15 @@ public class OperationOnDB {
                         Developer.Sex.valueOf(resultSet.getString("sex").toUpperCase(Locale.ROOT)),
                         resultSet.getInt("salary"));
                 result.put(key, dev);
-
             }
-
         } catch (SQLException ex) {
             ex.printStackTrace();
-
         }
         return result;
     }
 
-    public Map<Long,Developer>  getListMidDev() {
-        Map<Long,Developer> result = new HashMap<>();
+    public Map<Long, Developer> getListMidDev() {
+        Map<Long, Developer> result = new HashMap<>();
         try (ResultSet resultSet = getListOfMidDevSt.executeQuery()) {
             while (resultSet.next()) {
                 long key = resultSet.getLong("id_dev");
@@ -102,7 +96,6 @@ public class OperationOnDB {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-
         }
         return result;
     }
@@ -112,16 +105,14 @@ public class OperationOnDB {
         try (ResultSet resultSet = getListOfProjectSt.executeQuery()) {
             while (resultSet.next()) {
                 result.add(new ProjectList(resultSet.getString("st_d"),
-                        resultSet.getString("name_pr") ,
+                        resultSet.getString("name_pr"),
                         resultSet.getString("total_dev")));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-
         }
         return result;
     }
-
 
     public static final String GET_SUM_OF_SALARY_BY_ID_PROJECT_QUERY = "select project_developer.id_project as id_pr, sum(developers.salary) as sum_of_salary\n" +
             "\tfrom developers \n" +
