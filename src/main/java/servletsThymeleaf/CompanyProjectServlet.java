@@ -1,8 +1,7 @@
-package thymeleaf;
+package servletsThymeleaf;
 
 import model.ServiceDB;
-import model.commandsDB.entity.Developer;
-import model.commandsDB.entity.Project;
+import model.commandsDB.entity.CompanyProject;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.templateresolver.FileTemplateResolver;
@@ -14,11 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.Map;
 
-@WebServlet("/projects")
-public class ProjectsServlet extends HttpServlet {
+import static servletsThymeleaf.Setting.PATH_TO_TEMPLATES;
+
+@WebServlet("/companyProject")
+public class CompanyProjectServlet extends HttpServlet {
     private TemplateEngine engine;
 
     private ServiceDB service;
@@ -32,8 +32,7 @@ public class ProjectsServlet extends HttpServlet {
         }
         engine = new TemplateEngine();
         FileTemplateResolver resolver = new FileTemplateResolver();
-        //TODO change the path
-        resolver.setPrefix("C:\\Java\\jm\\maven-test\\servlets-hw-6\\servlets-hw-6\\src\\main\\resources\\templates\\");
+        resolver.setPrefix(PATH_TO_TEMPLATES);
         resolver.setSuffix(".html");
         resolver.setTemplateMode("HTML5");
         resolver.setOrder(engine.getTemplateResolvers().size());
@@ -75,60 +74,64 @@ public class ProjectsServlet extends HttpServlet {
 
     private void showNewForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Context ctx = new Context(req.getLocale(), Map.of(
-                "existingProj", new Project("enter name","description", "2021-07-07")));
+                "existingComProj", new CompanyProject(2, 2)));
         resp.setContentType("text/html");
-               engine.process("project-new-form", ctx, resp.getWriter());
+        engine.process("com-proj-new-form", ctx, resp.getWriter());
         resp.getWriter().close();
     }
 
     private void showEditForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
         System.out.println(id);
-        Project existingProj = (Project) service.getCommandsProject().selectData(id);
+        CompanyProject existingCompProj = (CompanyProject) service.getCommandsCompanyProject().selectData(id);
         Context ctx = new Context(req.getLocale(), Map.of(
-                "existingProj", existingProj));
+                "existingCompProj", existingCompProj));
         ctx.setVariable("id", id);
         resp.setContentType("text/html");
-        engine.process("project-edit-form", ctx, resp.getWriter());
+        engine.process("com-proj-edit-form", ctx, resp.getWriter());
         resp.getWriter().close();
 
 
     }
 
     private void insert(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        String nameOfProject = req.getParameter("nameOfProject");
-        String description = req.getParameter("description");
-        String date = req.getParameter("date");
-        Project proj = new Project(nameOfProject, description, date);
-        service.getCommandsProject().insertData(proj);
-        list(req,resp);
+        int idCompany = Integer.parseInt(req.getParameter("companyId"));
+
+        int idProject = Integer.parseInt(req.getParameter("projectId"));
+
+        CompanyProject companyProject = new CompanyProject(idCompany, idProject);
+        System.out.println(companyProject);
+        service.getCommandsCompanyProject().insertData(companyProject);
+        list(req, resp);
     }
 
     private void update(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        String idString =  req.getParameter("id");
+        String idString = req.getParameter("id");
         int id = Integer.parseInt(idString);
-        String nameOfProject = req.getParameter("nameOfProject");
-        String description = req.getParameter("description");
-        String date = req.getParameter("date");
-        Project proj = new Project(nameOfProject, description, date);
-        service.getCommandsProject().updateData(id,proj);
-        list(req,resp);
+        int idCompany = Integer.parseInt(req.getParameter("companyId"));
+
+        int idProject = Integer.parseInt(req.getParameter("projectId"));
+
+        CompanyProject companyProject = new CompanyProject(idCompany, idProject);
+
+        service.getCommandsCompanyProject().updateData(id, companyProject);
+        list(req, resp);
 
     }
 
     private void delete(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         int id = Integer.parseInt(req.getParameter("id"));
-        service.getCommandsProject().delete(id);
-        list(req,resp);
+        service.getCommandsCompanyProject().delete(id);
+        list(req, resp);
 
     }
 
     private void list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Map list = service.getCommandsProject().selectAllData("id_project");
+        Map list = service.getCommandsCompanyProject().selectAllData("id_com_pr");
         System.out.println(list);
         Context ctx = new Context(req.getLocale(), Map.of("list", list));
         resp.setContentType("text/html");
-        engine.process("project-list", ctx, resp.getWriter());
+        engine.process("com-proj-list", ctx, resp.getWriter());
         resp.getWriter().close();
 
     }

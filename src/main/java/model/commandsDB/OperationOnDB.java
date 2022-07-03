@@ -2,6 +2,7 @@ package model.commandsDB;
 
 import model.DatabaseConnector;
 import model.commandsDB.entity.Developer;
+import model.commandsDB.entity.ProjectList;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -106,13 +107,13 @@ public class OperationOnDB {
         return result;
     }
 
-    public List<String> getListOfProject() {
-        List<String> result = new ArrayList<>();
+    public List<ProjectList> getListOfProject() {
+        List<ProjectList> result = new ArrayList<>();
         try (ResultSet resultSet = getListOfProjectSt.executeQuery()) {
             while (resultSet.next()) {
-                result.add(resultSet.getString("st_d") + " " +
-                        resultSet.getString("name_pr") + " " +
-                        resultSet.getString("total_dev"));
+                result.add(new ProjectList(resultSet.getString("st_d"),
+                        resultSet.getString("name_pr") ,
+                        resultSet.getString("total_dev")));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();

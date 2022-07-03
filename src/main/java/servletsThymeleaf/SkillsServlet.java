@@ -1,7 +1,6 @@
-package thymeleaf;
+package servletsThymeleaf;
 
 import model.ServiceDB;
-import model.commandsDB.entity.Project;
 import model.commandsDB.entity.Skills;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -17,6 +16,7 @@ import java.sql.SQLException;
 import java.util.Map;
 
 import static model.commandsDB.entity.Skills.Technology.Java;
+import static servletsThymeleaf.Setting.PATH_TO_TEMPLATES;
 
 @WebServlet("/skills")
 public class SkillsServlet extends HttpServlet {
@@ -33,8 +33,7 @@ public class SkillsServlet extends HttpServlet {
         }
         engine = new TemplateEngine();
         FileTemplateResolver resolver = new FileTemplateResolver();
-        //TODO change the path
-        resolver.setPrefix("C:\\Java\\jm\\maven-test\\servlets-hw-6\\servlets-hw-6\\src\\main\\resources\\templates\\");
+        resolver.setPrefix(PATH_TO_TEMPLATES);
         resolver.setSuffix(".html");
         resolver.setTemplateMode("HTML5");
         resolver.setOrder(engine.getTemplateResolvers().size());

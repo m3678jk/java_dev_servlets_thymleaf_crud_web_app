@@ -39,15 +39,15 @@
    <br/>
 <a> <center>--------------------</center></a>
    <br/>
- <a href="/??"><center>List of <MID> developers</center></a>
+ <a href="/additional?action=listOfMidDevelopers"><center>List of MID developers</center></a>
  <br/>
- <a href="/??"><center>List of JAVA developers</center></a>
+ <a href="/additional?action=listOfJavaDevelopers"><center>List of JAVA developers</center></a>
  <br/>
- <a href="/??"><center>List of projects</center></a>
+ <a href="/additional?action=listOfProjects"><center>List of projects</center></a>
     <br/>
  <a> <center>--------------------</center></a>
    <br/>
-    <form action="salary" method="post"><center>
+    <form action="additional?action=salary" method="post"><center>
         <a>Sum of all developers' salaries by project id</a>
         : <input type="text" size="5" name="id"/>
         &nbsp;&nbsp;
@@ -55,7 +55,7 @@
         <input type="submit" class="btn btn-success" value="get" /><center>
     </form>
     <br/>
-    <form action=".." method="post"><center>
+    <form action="additional?action=listOfDev" method="post"><center>
             <a>List of developers on project id</a>
             : <input type="text" size="5" name="id"/>
             &nbsp;&nbsp;

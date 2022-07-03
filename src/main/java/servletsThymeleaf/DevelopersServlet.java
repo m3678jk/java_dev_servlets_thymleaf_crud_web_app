@@ -1,9 +1,10 @@
-package servlets;
+package servletsThymeleaf;
 
 import model.ServiceDB;
 import model.commandsDB.entity.Developer;
-
-import javax.servlet.RequestDispatcher;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.templateresolver.FileTemplateResolver;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,8 +14,12 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Map;
 
-@WebServlet(value = "/develop")
-public class DeveloperServlet extends HttpServlet {
+import static servletsThymeleaf.Setting.PATH_TO_TEMPLATES;
+
+@WebServlet("/developers")
+public class DevelopersServlet extends HttpServlet {
+    private TemplateEngine engine;
+
     private ServiceDB service;
     private Developer developer;
 
@@ -25,7 +30,16 @@ public class DeveloperServlet extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        engine = new TemplateEngine();
+        FileTemplateResolver resolver = new FileTemplateResolver();
+        resolver.setPrefix(PATH_TO_TEMPLATES);
+        resolver.setSuffix(".html");
+        resolver.setTemplateMode("HTML5");
+        resolver.setOrder(engine.getTemplateResolvers().size());
+        resolver.setCacheable(false);
+        engine.addTemplateResolver(resolver);
     }
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -34,6 +48,8 @@ public class DeveloperServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+
         String action = req.getParameter("action") != null ? req.getParameter("action") : "none";
         System.out.println(action);
         switch (action) {
@@ -49,7 +65,7 @@ public class DeveloperServlet extends HttpServlet {
             case "edit":
                 showEditForm(req, resp);
             case "update":
-                updateDeveloper(req,resp);
+                updateDeveloper(req, resp);
             default:
                 listUser(req, resp);
                 break;
@@ -57,56 +73,70 @@ public class DeveloperServlet extends HttpServlet {
     }
 
     private void showNewForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher dispatcher = req.getRequestDispatcher("developer-form.jsp");
-        dispatcher.forward(req, resp);
+        Context ctx = new Context(req.getLocale(), Map.of(
+                "existingDev", new Developer("enter name","second name", 1, Developer.Sex.UNKNOWN, 0)));
+        resp.setContentType("text/html");
+               engine.process("dev-new-form", ctx, resp.getWriter());
+        resp.getWriter().close();
     }
 
     private void showEditForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
         System.out.println(id);
         Developer existingDeveloper = (Developer) service.getCommandsDevelopers().selectData(id);
-        System.out.println(existingDeveloper);
-        RequestDispatcher dispatcher = req.getRequestDispatcher("developer-form.jsp");
-        req.setAttribute("id", id);
-        req.setAttribute("developer", existingDeveloper);
-        dispatcher.forward(req, resp);
+        Context ctx = new Context(req.getLocale(), Map.of(
+                "existingDev", existingDeveloper));
+        ctx.setVariable("id", id);
+        resp.setContentType("text/html");
+        engine.process("dev-edit-form", ctx, resp.getWriter());
+        resp.getWriter().close();
+
+
     }
 
-    private void insertDeveloper(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    private void insertDeveloper(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String firstName = req.getParameter("firstName");
         String secondName = req.getParameter("secondName");
-        int age = Integer.parseInt(req.getParameter("age"));
+        String ageString = req.getParameter("age");
+        int age = Integer.parseInt(ageString);
         Developer.Sex sex = Developer.Sex.valueOf(req.getParameter("sex"));
         int salary = Integer.parseInt(req.getParameter("salary"));
-        developer = new Developer(firstName, secondName, age, sex, salary);
-        service.getCommandsDevelopers().insertData(developer);
-        resp.sendRedirect("/developers");
+        Developer dev = new Developer(firstName, secondName, age, sex, salary);
+        System.out.println(dev+ "insert dev" );
+        service.getCommandsDevelopers().insertData(dev);
+        listUser(req,resp);
     }
 
-    private void updateDeveloper(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        int id = Integer.getInteger(req.getParameter("id"));
+    private void updateDeveloper(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        String idString =  req.getParameter("id");
+        int id = Integer.parseInt(idString);
         String firstName = req.getParameter("firstName");
         String secondName = req.getParameter("secondName");
-        int age = Integer.parseInt(req.getParameter("age"));
-        Developer.Sex sex = Developer.Sex.valueOf(req.getParameter("Sex"));
+        String ageString = req.getParameter("age");
+        int age = Integer.parseInt(ageString);
+        Developer.Sex sex = Developer.Sex.valueOf(req.getParameter("sex"));
         int salary = Integer.parseInt(req.getParameter("salary"));
         Developer dev = new Developer(firstName, secondName, age, sex, salary);
+        System.out.println(dev+ "update dev" );
         service.getCommandsDevelopers().updateData(id, dev);
-        resp.sendRedirect("/developers");
+        listUser(req,resp);
 
     }
-    private void deleteDeveloper(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+
+    private void deleteDeveloper(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         int id = Integer.parseInt(req.getParameter("id"));
         service.getCommandsDevelopers().delete(id);
-        resp.sendRedirect("/developers");
+        listUser(req,resp);
 
     }
 
     private void listUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Map listDevelopers = service.getCommandsDevelopers().selectAllData("id");
-        req.setAttribute("listDevelopers", listDevelopers);
-        RequestDispatcher dispatcher = req.getRequestDispatcher("developer-list.jsp");
-        dispatcher.forward(req,resp);
+        System.out.println(listDevelopers);
+        Context ctx = new Context(req.getLocale(), Map.of("list", listDevelopers));
+        resp.setContentType("text/html");
+        engine.process("dev-list", ctx, resp.getWriter());
+        resp.getWriter().close();
 
     }
 }
