@@ -1,7 +1,10 @@
 package servletsThymeleaf;
 
-import model.ServiceDB;
-import model.commandsDB.entity.Skills;
+
+import model.serviceDAO.DAO.DeveloperDAO;
+import model.serviceDAO.DAO.SkillsDAO;
+import model.serviceDAO.entity.Developer;
+import model.serviceDAO.entity.Skills;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.templateresolver.FileTemplateResolver;
@@ -12,24 +15,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
-import static model.commandsDB.entity.Skills.Technology.Java;
 import static servletsThymeleaf.Setting.PATH_TO_TEMPLATES;
 
 @WebServlet("/skills")
 public class SkillsServlet extends HttpServlet {
     private TemplateEngine engine;
-    private ServiceDB service;
+    private SkillsDAO service;
 
     @Override
-    public void init() throws ServletException {
-        try {
-            service = new ServiceDB();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void init() {
+        service = new SkillsDAO();
         engine = new TemplateEngine();
         FileTemplateResolver resolver = new FileTemplateResolver();
         resolver.setPrefix(PATH_TO_TEMPLATES);
@@ -55,8 +53,14 @@ public class SkillsServlet extends HttpServlet {
             case "insert":
                 insert(req, resp);
                 break;
+            case "remove":
+                showDeleteForm(req, resp);
+                break;
             case "delete":
                 delete(req, resp);
+                break;
+            case "redirect":
+                showSelectIdForm(req,resp);
                 break;
             case "edit":
                 showEditForm(req, resp);
@@ -70,56 +74,86 @@ public class SkillsServlet extends HttpServlet {
         }
     }
 
-    private void showNewForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void showSelectIdForm(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        long id = Long.parseLong(req.getParameter("id"));
         Context ctx = new Context(req.getLocale(), Map.of(
-                "existingSkills", new Skills(0, Java, "Junior")));
+                "enter", ""));
+        ctx.setVariable("id", id);
+
+        resp.setContentType("text/html");
+        engine.process("skills-select-id-form", ctx, resp.getWriter());
+        resp.getWriter().close();
+    }
+
+    private void showNewForm(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        long id = Long.parseLong(req.getParameter("id"));
+        Context ctx = new Context(req.getLocale(), Map.of(
+                "enter", ""));
+        ctx.setVariable("id", id);
         resp.setContentType("text/html");
         engine.process("skills-new-form", ctx, resp.getWriter());
         resp.getWriter().close();
     }
 
-    private void showEditForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int id = Integer.parseInt(req.getParameter("id"));
-        Skills existingSkills = (Skills) service.getCommandsSkills().selectData(id);
+    private void showEditForm(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        long skillsId = Long.parseLong(req.getParameter("skillsId"));
+        Skills existingSkills = service.getById(skillsId);
         Context ctx = new Context(req.getLocale(), Map.of(
                 "existingSkills", existingSkills));
-        ctx.setVariable("id", id);
+        ctx.setVariable("skillsId", skillsId);
         resp.setContentType("text/html");
         engine.process("skills-edit-form", ctx, resp.getWriter());
         resp.getWriter().close();
     }
 
-    private void insert(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        String idString = req.getParameter("id");
-        int id = Integer.parseInt(idString);
-        String technology = req.getParameter("technology");
-        String levelOfPosition = req.getParameter("levelOfPosition");
-        Skills skills = new Skills(id, Skills.Technology.valueOf(technology), levelOfPosition);
-        service.getCommandsSkills().insertData(skills);
-        list(req, resp);
-    }
-
-    private void update(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        String idString = req.getParameter("id");
-        int id = Integer.parseInt(idString);
-        String technology = req.getParameter("technology");
-        String levelOfPosition = req.getParameter("levelOfPosition");
-        Skills skills = new Skills(id, Skills.Technology.valueOf(technology), levelOfPosition);
-        service.getCommandsSkills().updateData(id, skills);
-        list(req, resp);
-    }
-
-    private void delete(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        int id = Integer.parseInt(req.getParameter("id"));
-        service.getCommandsProject().delete(id);
-        list(req, resp);
-    }
-
-    private void list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Map list = service.getCommandsSkills().selectAllData("id_skills");
-        Context ctx = new Context(req.getLocale(), Map.of("list", list));
+    private void showDeleteForm(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        long id = Integer.parseInt(req.getParameter("id"));
+        Context ctx = new Context(req.getLocale(), Map.of(
+                "enter", ""));
+        ctx.setVariable("id", id);
         resp.setContentType("text/html");
-        engine.process("skills-list", ctx, resp.getWriter());
+        engine.process("skills-delete-form", ctx, resp.getWriter());
+        resp.getWriter().close();
+    }
+
+    private void insert(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String idString = req.getParameter("id");
+        long id = Long.parseLong(idString);
+        Skills.Technology technology = Skills.Technology.valueOf(req.getParameter("technology"));
+        String levelOfPosition = req.getParameter("levelOfPosition");
+        Skills skills = new Skills();
+        skills.setTechnology(technology);
+        skills.setLevelOfPosition(levelOfPosition);
+        service.insert(id,skills);
+        list(req, resp);
+    }
+
+    private void update(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String idString = req.getParameter("skillsId");
+        long id = Long.parseLong(idString);
+        Skills.Technology technology = Skills.Technology.valueOf(req.getParameter("technology"));
+        String levelOfPosition = req.getParameter("levelOfPosition");
+        Skills skills = new Skills();
+        skills.setTechnology(technology);
+        skills.setLevelOfPosition(levelOfPosition);
+        service.update(id, skills);
+        list(req, resp);
+    }
+
+    private void delete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+//        int id = Integer.parseInt(req.getParameter("id"));
+        long skillsId = Long.parseLong(req.getParameter("skillsId"));
+        service.delete(skillsId);
+        list(req, resp);
+
+    }
+
+    private void list(HttpServletRequest req, HttpServletResponse resp) throws  IOException {
+        DeveloperDAO developerDAO = new DeveloperDAO();
+        List<Developer> listDevelopers = developerDAO.getList();
+        Context ctx = new Context(req.getLocale(), Map.of("list", listDevelopers));
+        resp.setContentType("text/html");
+        engine.process("dev-list", ctx, resp.getWriter());
         resp.getWriter().close();
     }
 }

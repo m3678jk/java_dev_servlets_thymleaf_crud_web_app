@@ -1,7 +1,7 @@
 package servletsThymeleaf;
 
-import model.ServiceDB;
-import model.commandsDB.entity.Developer;
+import model.serviceDAO.DAO.DeveloperDAO;
+import model.serviceDAO.entity.Developer;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.templateresolver.FileTemplateResolver;
@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 import static servletsThymeleaf.Setting.PATH_TO_TEMPLATES;
@@ -20,16 +20,14 @@ import static servletsThymeleaf.Setting.PATH_TO_TEMPLATES;
 @WebServlet("/developers")
 public class DevelopersServlet extends HttpServlet {
     private TemplateEngine engine;
-    private ServiceDB service;
+    private DeveloperDAO service;
 
     @Override
-    public void init() throws ServletException {
-        try {
-            service = new ServiceDB();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void init() {
+        service = new DeveloperDAO();
+
         engine = new TemplateEngine();
+        
         FileTemplateResolver resolver = new FileTemplateResolver();
         resolver.setPrefix(PATH_TO_TEMPLATES);
         resolver.setSuffix(".html");
@@ -71,15 +69,15 @@ public class DevelopersServlet extends HttpServlet {
 
     private void showNewForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Context ctx = new Context(req.getLocale(), Map.of(
-                "existingDev", new Developer("enter name", "second name", 1, Developer.Sex.UNKNOWN, 0)));
+                "existingDev", new Developer()));
         resp.setContentType("text/html");
         engine.process("dev-new-form", ctx, resp.getWriter());
         resp.getWriter().close();
     }
 
     private void showEditForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int id = Integer.parseInt(req.getParameter("id"));
-        Developer existingDeveloper = (Developer) service.getCommandsDevelopers().selectData(id);
+        long id = Long.parseLong(req.getParameter("id"));
+        model.serviceDAO.entity.Developer existingDeveloper = service.getById(id);
         Context ctx = new Context(req.getLocale(), Map.of(
                 "existingDev", existingDeveloper));
         ctx.setVariable("id", id);
@@ -95,33 +93,43 @@ public class DevelopersServlet extends HttpServlet {
         int age = Integer.parseInt(ageString);
         Developer.Sex sex = Developer.Sex.valueOf(req.getParameter("sex"));
         int salary = Integer.parseInt(req.getParameter("salary"));
-        Developer dev = new Developer(firstName, secondName, age, sex, salary);
-        service.getCommandsDevelopers().insertData(dev);
+        Developer dev = new Developer();
+                dev.setFirstName(firstName);
+        dev.setAge(age);
+        dev.setSalary(salary);
+        dev.setSex(sex);
+        dev.setSecondName(secondName);
+        service.inset(dev);
         listUser(req, resp);
     }
 
     private void updateDeveloper(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String idString = req.getParameter("id");
-        int id = Integer.parseInt(idString);
+        long id = Long.parseLong(idString);
         String firstName = req.getParameter("firstName");
         String secondName = req.getParameter("secondName");
         String ageString = req.getParameter("age");
         int age = Integer.parseInt(ageString);
         Developer.Sex sex = Developer.Sex.valueOf(req.getParameter("sex"));
         int salary = Integer.parseInt(req.getParameter("salary"));
-        Developer dev = new Developer(firstName, secondName, age, sex, salary);
-        service.getCommandsDevelopers().updateData(id, dev);
+        Developer dev = new Developer();
+        dev.setFirstName(firstName);
+        dev.setAge(age);
+        dev.setSalary(salary);
+        dev.setSex(sex);
+        dev.setSecondName(secondName);
+        service.update(id, dev);
         listUser(req, resp);
     }
 
     private void deleteDeveloper(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        int id = Integer.parseInt(req.getParameter("id"));
-        service.getCommandsDevelopers().delete(id);
+        long id = Long.parseLong(req.getParameter("id"));
+        service.delete(id);
         listUser(req, resp);
     }
 
     private void listUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Map listDevelopers = service.getCommandsDevelopers().selectAllData("id");
+        List<Developer> listDevelopers = service.getList();
         Context ctx = new Context(req.getLocale(), Map.of("list", listDevelopers));
         resp.setContentType("text/html");
         engine.process("dev-list", ctx, resp.getWriter());

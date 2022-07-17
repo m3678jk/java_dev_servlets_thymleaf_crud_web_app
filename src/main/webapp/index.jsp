@@ -31,12 +31,6 @@
    <br/>
  <a href="/projects"><center>Projects</center></a>
    <br/>
- <a href="/projectDeveloper"><center>Project&Developer</center></a>
-   <br/>
- <a href="/companyProject"><center>Company&Project</center></a>
-   <br/>
- <a href="/customerProject"><center>Customer&Project</center></a>
-   <br/>
 <a> <center>--------------------</center></a>
    <br/>
  <a href="/additional?action=listOfMidDevelopers"><center>List of MID developers</center></a>

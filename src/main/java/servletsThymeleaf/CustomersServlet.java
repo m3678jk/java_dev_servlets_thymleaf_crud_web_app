@@ -1,8 +1,7 @@
 package servletsThymeleaf;
 
-import model.ServiceDB;
-import model.commandsDB.entity.Company;
-import model.commandsDB.entity.Customer;
+import model.serviceDAO.DAO.CustomerDAO;
+import model.serviceDAO.entity.Customer;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.templateresolver.FileTemplateResolver;
@@ -13,7 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 import static servletsThymeleaf.Setting.PATH_TO_TEMPLATES;
@@ -21,15 +20,11 @@ import static servletsThymeleaf.Setting.PATH_TO_TEMPLATES;
 @WebServlet("/customers")
 public class CustomersServlet extends HttpServlet {
     private TemplateEngine engine;
-    private ServiceDB service;
+    private CustomerDAO service;
 
     @Override
-    public void init() throws ServletException {
-        try {
-            service = new ServiceDB();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void init() {
+        service = new CustomerDAO();
         engine = new TemplateEngine();
         FileTemplateResolver resolver = new FileTemplateResolver();
         resolver.setPrefix(PATH_TO_TEMPLATES);
@@ -72,15 +67,15 @@ public class CustomersServlet extends HttpServlet {
 
     private void showNewForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Context ctx = new Context(req.getLocale(), Map.of(
-                "existingCustomer", new Customer("enter name", "address")));
+                "existingCustomer", new Customer()));
         resp.setContentType("text/html");
         engine.process("customer-new-form", ctx, resp.getWriter());
         resp.getWriter().close();
     }
 
-    private void showEditForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int id = Integer.parseInt(req.getParameter("id"));
-        Customer existingCustomer = (Customer) service.getCommandsCustomers().selectData(id);
+    private void showEditForm(HttpServletRequest req, HttpServletResponse resp) throws  IOException {
+        long id = Long.parseLong(req.getParameter("id"));
+        Customer existingCustomer = service.getById(id);
         Context ctx = new Context(req.getLocale(), Map.of(
                 "existingCustomer", existingCustomer));
         ctx.setVariable("id", id);
@@ -92,29 +87,33 @@ public class CustomersServlet extends HttpServlet {
     private void insertCustomer(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String name = req.getParameter("name");
         String address = req.getParameter("address");
-        Company com = new Company(name, address);
-        service.getCommandsCompanies().insertData(com);
+        Customer com = new Customer();
+        com.setAddress(address);
+        com.setName(name);
+        service.inset(com);
         listUser(req, resp);
     }
 
     private void updateCustomer(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String idString = req.getParameter("id");
-        int id = Integer.parseInt(idString);
+        long id = Long.parseLong(idString);
         String name = req.getParameter("name");
         String address = req.getParameter("address");
-        Customer customer = new Customer(name, address);
-        service.getCommandsCustomers().updateData(id, customer);
+        Customer customer = new Customer();
+        customer.setName(name);
+        customer.setAddress(address);
+        service.update(id, customer);
         listUser(req, resp);
     }
 
     private void deleteCustomer(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        int id = Integer.parseInt(req.getParameter("id"));
-        service.getCommandsCustomers().delete(id);
+        long id = Long.parseLong(req.getParameter("id"));
+        service.delete(id);
         listUser(req, resp);
     }
 
     private void listUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Map listCustomers = service.getCommandsCustomers().selectAllData("id_customer");
+        List<Customer> listCustomers = service.getList();
         Context ctx = new Context(req.getLocale(), Map.of("list", listCustomers));
         resp.setContentType("text/html");
         engine.process("customer-list", ctx, resp.getWriter());

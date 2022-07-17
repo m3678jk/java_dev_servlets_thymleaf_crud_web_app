@@ -39,7 +39,6 @@
                 <table class="table table-bordered">
                       <thead>
                         <tr>
-                            <th>ID</th>
                             <th>Company ID</th>
                             <th>Project ID</th>
                             <th>Actions</th>
@@ -47,10 +46,9 @@
                         </thead>
                         <tbody>
                              <tr th:each ="com : ${list}">
-                                <td th:text="${com.key}"></td>
-                                <td th:text="${com.value.companyId}"></td>
-                                <td th:text="${com.value.projectId}"></td>
-                                <td><a th:href="'/companyProject?action=edit&id=' + ${com.key}">Edit</a>
+                                <td th:text="${com.companies.projects_id_project}"></td>
+                                <td th:text="${com.companies.idCompany}"></td>
+                                <td><a th:href="'/companyProject?action=edit&id=' + ${com.companies.id} + '&idCompany=' + ${com.id}">Edit</a>
                                 <a th:href="'/companyProject?action=delete&id='+ ${com.key}">Delete</a></td>
                              </tr>
                         </tbody>

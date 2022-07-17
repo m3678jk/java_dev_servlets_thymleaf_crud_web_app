@@ -38,8 +38,10 @@
 			<table class="table table-bordered">
 				<thead>
 					<tr>
+					    <th>ID project</th>
 						<th>Date</th>
                         <th>Name of project</th>
+                        <th>Description of project</th>
                         <th>Qty of developer</th>
                       	</tr>
 				</thead>
@@ -49,9 +51,11 @@
 
                     	<tr>
 
-							<td><c:out value="${l.date}" /></td>
-                            <td><c:out value="${l.name}" /></td>
-                            <td><c:out value="${l.qty}" /></td>
+							<td><c:out value="${l.get(0)}" /></td>
+                            <td><c:out value="${l.get(1)}" /></td>
+                            <td><c:out value="${l.get(2)}" /></td>
+                            <td><c:out value="${l.get(3)}" /></td>
+                            <td><c:out value="${l.get(4)}" /></td>
 
 						</tr>
 					</c:forEach>

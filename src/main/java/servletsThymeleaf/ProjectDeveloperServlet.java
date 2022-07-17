@@ -1,7 +1,8 @@
 package servletsThymeleaf;
 
-import model.ServiceDB;
-import model.commandsDB.entity.ProjectDeveloper;
+import model.serviceDAO.DAO.ProjectDAO;
+import model.serviceDAO.entity.Project;
+import model.serviceDAO.manager.RelationManager;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.templateresolver.FileTemplateResolver;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 import static servletsThymeleaf.Setting.PATH_TO_TEMPLATES;
@@ -20,15 +22,11 @@ import static servletsThymeleaf.Setting.PATH_TO_TEMPLATES;
 @WebServlet("/projectDeveloper")
 public class ProjectDeveloperServlet extends HttpServlet {
     private TemplateEngine engine;
-    private ServiceDB service;
+    private RelationManager service;
 
     @Override
     public void init() throws ServletException {
-        try {
-            service = new ServiceDB();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        service = new RelationManager();
         engine = new TemplateEngine();
         FileTemplateResolver resolver = new FileTemplateResolver();
         resolver.setPrefix(PATH_TO_TEMPLATES);
@@ -54,14 +52,11 @@ public class ProjectDeveloperServlet extends HttpServlet {
             case "insert":
                 insert(req, resp);
                 break;
+            case "remove":
+                showDeleteForm(req, resp);
+                break;
             case "delete":
                 delete(req, resp);
-                break;
-            case "edit":
-                showEditForm(req, resp);
-                break;
-            case "update":
-                update(req, resp);
                 break;
             default:
                 list(req, resp);
@@ -70,53 +65,47 @@ public class ProjectDeveloperServlet extends HttpServlet {
     }
 
     private void showNewForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        long id = Integer.parseInt(req.getParameter("id"));
         Context ctx = new Context(req.getLocale(), Map.of(
-                "existingProjDev", new ProjectDeveloper(2, 2)));
-        resp.setContentType("text/html");
-        engine.process("proj-dev-new-form", ctx, resp.getWriter());
-        resp.getWriter().close();
-    }
-
-    private void showEditForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int id = Integer.parseInt(req.getParameter("id"));
-        ProjectDeveloper existingProjDev = (ProjectDeveloper) service.getCommandsProjectDeveloper().selectData(id);
-        Context ctx = new Context(req.getLocale(), Map.of(
-                "existingProjDev", existingProjDev));
+                "enter", ""));
         ctx.setVariable("id", id);
         resp.setContentType("text/html");
         engine.process("proj-dev-edit-form", ctx, resp.getWriter());
         resp.getWriter().close();
     }
 
+    private void showDeleteForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        long id = Integer.parseInt(req.getParameter("id"));
+        Context ctx = new Context(req.getLocale(), Map.of(
+                "enter", ""));
+        ctx.setVariable("id", id);
+        resp.setContentType("text/html");
+        engine.process("dev-proj-delete-form", ctx, resp.getWriter());
+        resp.getWriter().close();
+    }
+
     private void insert(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        int projectId = Integer.parseInt(req.getParameter("projectId"));
-        int developerId = Integer.parseInt(req.getParameter("developerId"));
-        ProjectDeveloper projectDeveloper = new ProjectDeveloper(projectId, developerId);
-        service.getCommandsProjectDeveloper().insertData(projectDeveloper);
+        long idProject = Long.parseLong(req.getParameter("id"));
+        long idDeveloper = Long.parseLong(req.getParameter("developerId"));
+        service.addDeveloperToProject(idProject,idDeveloper);
+        list(req, resp);
+
+    }
+
+    private void delete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        long idProject = Long.parseLong(req.getParameter("id"));
+        long idDeveloper = Long.parseLong(req.getParameter("developerId"));
+
+        service.deleteDeveloperFromProject(idProject,idDeveloper);
         list(req, resp);
     }
 
-    private void update(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        String idString = req.getParameter("id");
-        int id = Integer.parseInt(idString);
-        int projectId = Integer.parseInt(req.getParameter("projectId"));
-        int developerId = Integer.parseInt(req.getParameter("developerId"));
-        ProjectDeveloper projectDeveloper = new ProjectDeveloper(projectId, developerId);
-        service.getCommandsProjectDeveloper().updateData(id, projectDeveloper);
-        list(req, resp);
-    }
-
-    private void delete(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        int id = Integer.parseInt(req.getParameter("id"));
-        service.getCommandsProjectDeveloper().delete(id);
-        list(req, resp);
-    }
-
-    private void list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Map list = service.getCommandsProjectDeveloper().selectAllData("id_pr_dev");
+    private void list(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        ProjectDAO projectDAO = new ProjectDAO();
+        List<Project> list = projectDAO.getList();
         Context ctx = new Context(req.getLocale(), Map.of("list", list));
         resp.setContentType("text/html");
-        engine.process("proj-dev-list", ctx, resp.getWriter());
+        engine.process("project-list", ctx, resp.getWriter());
         resp.getWriter().close();
     }
 }

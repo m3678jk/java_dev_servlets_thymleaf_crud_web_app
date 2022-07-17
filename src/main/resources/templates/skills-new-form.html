@@ -29,14 +29,10 @@
 		<div class="card">
 			<div  class="card-body">
 			    <form th:action="'skills?action=insert'"  method="post">
+                     <div >
+                        <input type="hidden" name="id" th:value="${id}">
+                    </div>
 
-
-
-                    <fieldset class="form-group">
-                        <label>Developer ID</label>  <input type="text"
-                        name="id" th:value="${id}" class="form-control"
-                         required="required">
-                    </fieldset>
 
                     <fieldset class="form-group" >
                         <label>Technology</label>

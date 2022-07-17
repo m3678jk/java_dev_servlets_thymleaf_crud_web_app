@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.servletsThymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.servletsThymeleaf.org ">
 <head>
-<title>Developer Management</title>
+<title>Company Management</title>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
@@ -14,7 +14,7 @@
         <nav class="navbar navbar-expand-md navbar-dark"
              style="background-color: tomato">
             <div>
-                <a href="https://www.javaguides.net" class="navbar-brand"> Customer Management</a>
+                <a href="https://www.javaguides.net" class="navbar-brand"> Company Management</a>
             </div>
 
             <ul class="navbar-nav">
@@ -47,11 +47,11 @@
                         </thead>
                         <tbody>
                              <tr th:each ="com : ${list}">
-                                <td th:text="${com.key}"></td>
-                                <td th:text="${com.value.name}">Name</td>
-                                <td th:text="${com.value.address}">Address</td>
-                                <td><a th:href="'/companies?action=edit&id=' + ${com.key}">Edit</a>
-                                <a th:href="'/companies?action=delete&id='+ ${com.key}">Delete</a></td>
+                                <td th:text="${com.idCompany}"></td>
+                                <td th:text="${com.nameOfCompany}">Name</td>
+                                <td th:text="${com.address}">Address</td>
+                                <td><a th:href="'/companies?action=edit&id=' + ${com.idCompany}">Edit</a>
+                                <a th:href="'/companies?action=delete&id='+ ${com.idCompany}">Delete</a></td>
                              </tr>
                         </tbody>
                 </table>

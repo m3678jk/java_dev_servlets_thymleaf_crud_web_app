@@ -45,20 +45,22 @@
 						<th>Age</th>
 						<th>Sex</th>
 						<th>Salary</th>
+						<th>Skills</th>
 					</tr>
 				</thead>
 				<tbody>
 
-					<c:forEach var="entry" items="${list}">
+					<c:forEach var="l" items="${list}">
 
                     	<tr>
 
-							<td><c:out value="${entry.key}" /></td>
-							<td><c:out value="${entry.value.firstName}" /></td>
-							<td><c:out value="${entry.value.secondName}" /></td>
-							<td><c:out value="${entry.value.age}" /></td>
-							<td><c:out value="${entry.value.sex}" /></td>
-							<td><c:out value="${entry.value.salary}" /></td>
+							<td><c:out value="${l.id}" /></td>
+							<td><c:out value="${l.firstName}" /></td>
+							<td><c:out value="${l.secondName}" /></td>
+							<td><c:out value="${l.age}" /></td>
+							<td><c:out value="${l.sex}" /></td>
+							<td><c:out value="${l.salary}" /></td>
+							<td><c:out value="${l.skills}" /></td>
 
 						</tr>
 					</c:forEach>

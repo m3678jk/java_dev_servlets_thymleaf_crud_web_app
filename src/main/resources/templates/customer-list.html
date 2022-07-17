@@ -32,7 +32,7 @@
                 <h3 class="text-center">List of Customers</h3>
                 <hr>
                 <div class="container text-left">
-                    <a href="companies?action=new" class="btn btn-success">Add
+                    <a href="customers?action=new" class="btn btn-success">Add
                         New Customer</a>
                 </div>
                 <br>
@@ -47,11 +47,11 @@
                         </thead>
                         <tbody>
                              <tr th:each ="cust : ${list}">
-                                <td th:text="${cust.key}"></td>
-                                <td th:text="${cust.value.name}">Name</td>
-                                <td th:text="${cust.value.address}">Address</td>
-                                <td><a th:href="'/customers?action=edit&id=' + ${cust.key}">Edit</a>
-                                <a th:href="'/customers?action=delete&id='+ ${cust.key}">Delete</a></td>
+                                <td th:text="${cust.customerId}"></td>
+                                <td th:text="${cust.name}">Name</td>
+                                <td th:text="${cust.address}">Address</td>
+                                <td><a th:href="'/customers?action=edit&id=' + ${cust.customerId}">Edit</a>
+                                <a th:href="'/customers?action=delete&id='+ ${cust.customerId}">Delete</a></td>
                              </tr>
                         </tbody>
                 </table>

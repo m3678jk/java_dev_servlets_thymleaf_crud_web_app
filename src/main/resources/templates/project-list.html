@@ -43,17 +43,40 @@
                             <th>Name</th>
                             <th>Description</th>
                             <th>Date of start</th>
+                            <th>Companies</th>
+                            <th>Developers</th>
+                            <th>Customers</th>
                             <th>Actions</th>
                            </tr>
                         </thead>
                         <tbody>
                              <tr th:each ="proj : ${list}">
-                                <td th:text="${proj.key}"></td>
-                                <td th:text="${proj.value.nameOfProject}"></td>
-                                <td th:text="${proj.value.description}"></td>
-                                <td th:text="${proj.value.date}"></td>
-                                <td><a th:href="'/projects?action=edit&id=' + ${proj.key}">Edit</a>
-                                <a th:href="'/projects?action=delete&id='+ ${proj.key}">Delete</a></td>
+                                <td th:text="${proj.id}"></td>
+                                <td th:text="${proj.nameOfProject}"></td>
+                                <td th:text="${proj.description}"></td>
+                                <td th:text="${proj.date.toString()}"></td>
+                                <td th:text="${proj.companies}"></td>
+                                <td th:text="${proj.developers}">
+                                <td th:text="${proj.customers}"></td>
+
+                                <td><a th:href="'/projects?action=edit&id=' + ${proj.id}">Edit</a>
+                                <a th:href="'/projects?action=delete&id='+ ${proj.id}">Delete</a>
+                                <br>
+                                <a th:href="'/companyProject?action=new&id=' + ${proj.id}">Add Company</a>
+                                <br>
+                                <a th:href="'/companyProject?action=remove&id=' + ${proj.id}">Delete Company</a>
+                                <br>
+                                <a th:href="'/projectDeveloper?action=new&id=' + ${proj.id}">Add Developer</a>
+                                <br>
+                                <a th:href="'/projectDeveloper?action=remove&id=' + ${proj.id}">Delete Developer</a>
+                                <br>
+                                <a th:href="'/customerProject?action=new&id=' + ${proj.id}">Add Customer</a>
+                                <br>
+                                <a th:href="'/customerProject?action=remove&id=' + ${proj.id}">Delete Customer</a>
+                                <br>
+
+                                </td>
+
                              </tr>
                         </tbody>
                 </table>

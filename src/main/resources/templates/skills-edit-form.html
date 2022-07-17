@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.servletsThymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.servletsThymeleaf.org ">
 <head>
-<title>Edit Project</title>
+<title>Edit Skills</title>
 <meta charset="utf-8" />
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -28,17 +28,13 @@
 	<div class="container col-md-5">
 		<div class="card">
 			<div  class="card-body">
-			    <form th:action="'skills?action=update&id=' + ${id}"  method="post">
+			    <form th:action="'skills?action=update&skillsId=' + ${skillsId}"  method="post">
 
                     <div >
-                        <input type="hidden" name="id" th:value="${id}">
+                        <input type="hidden" name="skillsId" th:value="${skillsId}">
                     </div>
 
-                    <fieldset class="form-group">
-                        <label>Developer ID</label>  <input type="text"
-                        name="idDev" th:value="${existingSkills.idDev}" class="form-control"
-                         required="required">
-                    </fieldset>
+
 
                     <fieldset class="form-group" >
                         <label>Technology:</label>
@@ -66,7 +62,7 @@
 
                     </fieldset>
 
-                    <button type="submit" th:value="${id}" class="btn btn-success">Save</button>
+                    <button type="submit" th:value="${skillsId}" class="btn btn-success">Save</button>
 				</form>
 			</div>
 		</div>

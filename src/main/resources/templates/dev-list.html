@@ -45,19 +45,29 @@
                             <th>Age</th>
                             <th>Sex</th>
                             <th>Salary</th>
+                            <th>Skills</th>
                             <th>Actions</th>
                            </tr>
                         </thead>
                         <tbody>
                              <tr th:each ="dev : ${list}">
-                                <td th:text="${dev.key}"></td>
-                                <td th:text="${dev.value.firstName}">First Name</td>
-                                <td th:text="${dev.value.secondName}">Last Name</td>
-                                <td th:text="${dev.value.age}"></td>
-                                <td th:text="${dev.value.sex}">Sex</td>
-                                <td th:text="${dev.value.salary}">Salary</td>
-                                <td><a th:href="'/developers?action=edit&id=' + ${dev.key}">Edit</a>
-                                <a th:href="'/developers?action=delete&id='+ ${dev.key}">Delete</a></td>
+                                <td th:text="${dev.id}"></td>
+                                <td th:text="${dev.firstName}">First Name</td>
+                                <td th:text="${dev.secondName}">Last Name</td>
+                                <td th:text="${dev.age}"></td>
+                                <td th:text="${dev.sex}">Sex</td>
+                                <td th:text="${dev.salary}">Salary</td>
+                                <td th:text="${dev.skills}">Skills</td>
+
+                                <td><a th:href="'/developers?action=edit&id=' + ${dev.id}">Edit</a>
+                                <a th:href="'/developers?action=delete&id='+ ${dev.id}">Delete</a>
+                                <br>
+                                <a th:href="'/skills?action=new&id='+ ${dev.id}">Add Skills</a>
+                                <br>
+                                <a th:href="'/skills?action=redirect&id='+ ${dev.id}">Update Skills</a>
+                                <br>
+                                <a th:href="'/skills?action=remove&id='+ ${dev.id}">Delete Skills</a>
+                                </td>
                              </tr>
                         </tbody>
                 </table>
