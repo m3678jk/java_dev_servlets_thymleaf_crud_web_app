@@ -52,7 +52,6 @@ public class AdditionalCommandsServlet extends HttpServlet {
     }
 
     private void salary(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         resp.setContentType("text/html; charset=utf-8");
         long id = Long.parseLong(parseId(req));
         int salary = service.getSumOfSalary(id);
@@ -82,13 +81,10 @@ public class AdditionalCommandsServlet extends HttpServlet {
         resp.setContentType("text/html; charset=utf-8");
         int id = Integer.parseInt(parseId(req));
         List<Developer> list = service.getListOfDevelopers(id);
-        System.out.println(list);
         req.setAttribute("list", list);
         req.setAttribute("text", "at project " + id);
-
         RequestDispatcher dispatcher = req.getRequestDispatcher("developer-list.jsp");
         dispatcher.forward(req, resp);
-
     }
 
     private void listOfJavaDevelopers(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -96,7 +92,6 @@ public class AdditionalCommandsServlet extends HttpServlet {
         System.out.println(list);
         req.setAttribute("list", list);
         req.setAttribute("text", "Java");
-
         RequestDispatcher dispatcher = req.getRequestDispatcher("developer-list.jsp");
         dispatcher.forward(req, resp);
     }
