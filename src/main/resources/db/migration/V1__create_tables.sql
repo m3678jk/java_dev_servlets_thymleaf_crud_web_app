@@ -3,7 +3,7 @@ id bigint NOT NULL AUTO_INCREMENT,
 first_name varchar(100) NOT NULL,
 second_name varchar(100),
 age INT,
-sex ENUM("male", "female", "unknown") NOT NULL,
+sex ENUM("MALE", "FEMALE", "UNKNOWN") NOT NULL,
 salary INT,
 primary key (id)
 );
