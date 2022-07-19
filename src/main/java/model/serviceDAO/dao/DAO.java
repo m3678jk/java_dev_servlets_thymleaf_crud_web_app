@@ -1,4 +1,4 @@
-package model.serviceDAO.DAO;
+package model.serviceDAO.dao;
 
 import java.util.List;
 

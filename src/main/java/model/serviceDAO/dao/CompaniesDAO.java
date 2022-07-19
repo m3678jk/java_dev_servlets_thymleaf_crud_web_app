@@ -1,4 +1,4 @@
-package model.serviceDAO.DAO;
+package model.serviceDAO.dao;
 
 import model.hibernate.HibernateUtil;
 import model.serviceDAO.entity.Company;
@@ -56,14 +56,5 @@ public class CompaniesDAO implements DAO {
         session.merge(existing);
         transaction.commit();
         session.close();
-
-    }
-
-    public static void main(String[] args) {
-        CompaniesDAO companiesDAO = new CompaniesDAO();
-        Company company = new Company();
-        company.setNameOfCompany("name");
-        company.setAddress("address test ");
-        companiesDAO.insert(company);
     }
 }

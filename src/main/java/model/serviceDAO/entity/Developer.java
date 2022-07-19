@@ -42,9 +42,9 @@ public class Developer {
 
 
     public enum Sex {
-        male,
-        female,
-        unknown
+        MALE,
+        FEMALE,
+        UNKNOWN
     }
 
     @Getter

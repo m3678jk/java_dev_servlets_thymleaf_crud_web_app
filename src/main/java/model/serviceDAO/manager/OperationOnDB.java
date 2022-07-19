@@ -58,7 +58,7 @@ public class OperationOnDB {
                 Skills.class);
         List<Skills> list = query.list();
         List<Developer> result = list.stream()
-                .filter(it -> it.getTechnology() == Skills.Technology.Java)
+                .filter(it -> it.getTechnology() == Skills.Technology.JAVA)
                 .map(o -> o.getDeveloper())
                 .collect(Collectors.toList());
         transaction.commit();

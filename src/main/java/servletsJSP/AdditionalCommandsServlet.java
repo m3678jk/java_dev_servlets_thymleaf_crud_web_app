@@ -30,7 +30,6 @@ public class AdditionalCommandsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action") != null ? req.getParameter("action") : "none";
-        System.out.println(action);
         switch (action) {
             case "listOfMidDevelopers":
                 listOfMidDevelopers(req, resp);
@@ -89,7 +88,6 @@ public class AdditionalCommandsServlet extends HttpServlet {
 
     private void listOfJavaDevelopers(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Developer> list = service.getListOfJavaDev();
-        System.out.println(list);
         req.setAttribute("list", list);
         req.setAttribute("text", "Java");
         RequestDispatcher dispatcher = req.getRequestDispatcher("developer-list.jsp");

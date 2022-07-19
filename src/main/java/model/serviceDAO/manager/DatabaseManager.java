@@ -1,7 +1,7 @@
 package model.serviceDAO.manager;
 
 import lombok.Getter;
-import model.serviceDAO.DAO.*;
+import model.serviceDAO.dao.*;
 
 public class DatabaseManager {
 

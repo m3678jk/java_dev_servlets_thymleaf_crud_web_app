@@ -1,7 +1,7 @@
 package model.serviceDAO.manager;
 
 import model.hibernate.HibernateUtil;
-import model.serviceDAO.DAO.*;
+import model.serviceDAO.dao.*;
 import model.serviceDAO.entity.Company;
 import model.serviceDAO.entity.Customer;
 import model.serviceDAO.entity.Developer;

@@ -1,6 +1,6 @@
 package servletsThymeleaf;
 
-import model.serviceDAO.DAO.CompaniesDAO;
+import model.serviceDAO.dao.CompaniesDAO;
 import model.serviceDAO.entity.Company;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +24,7 @@ public class CompaniesServlet extends HttpServlet {
 
     @Override
     public void init()  {
+
         service = new CompaniesDAO();
         engine = new TemplateEngine();
         FileTemplateResolver resolver = new FileTemplateResolver();
@@ -62,7 +62,7 @@ public class CompaniesServlet extends HttpServlet {
                 updateCompany(req, resp);
                 break;
             default:
-                listUser(req, resp);
+                listOfCompanies(req, resp);
                 break;
         }
     }
@@ -93,7 +93,7 @@ public class CompaniesServlet extends HttpServlet {
         com.setNameOfCompany(name);
         com.setAddress(address);
         service.insert(com);
-        listUser(req, resp);
+        listOfCompanies(req, resp);
     }
 
     private void updateCompany(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
@@ -105,16 +105,16 @@ public class CompaniesServlet extends HttpServlet {
         comp.setAddress(address);
         comp.setNameOfCompany(name);
         service.update(id, comp);
-        listUser(req, resp);
+        listOfCompanies(req, resp);
     }
 
     private void deleteCompany(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         long id = Long.parseLong(req.getParameter("id"));
         service.delete(id);
-        listUser(req, resp);
+        listOfCompanies(req, resp);
     }
 
-    private void listUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void listOfCompanies(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Company> listCompanies = service.getList();
         Context ctx = new Context(req.getLocale(), Map.of("list", listCompanies));
         resp.setContentType("text/html");

@@ -30,7 +30,7 @@ public class Skills {
     private Developer developer;
 
     public enum Technology {
-        Java,
+        JAVA,
         JS,
         C_PLUS_PLUS,
         C_SHARP

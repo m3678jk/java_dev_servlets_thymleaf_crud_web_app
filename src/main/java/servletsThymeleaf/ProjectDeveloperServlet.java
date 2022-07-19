@@ -1,6 +1,6 @@
 package servletsThymeleaf;
 
-import model.serviceDAO.DAO.ProjectDAO;
+import model.serviceDAO.dao.ProjectDAO;
 import model.serviceDAO.entity.Project;
 import model.serviceDAO.manager.RelationManager;
 import org.thymeleaf.TemplateEngine;
@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 

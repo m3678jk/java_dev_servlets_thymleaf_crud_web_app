@@ -1,6 +1,6 @@
 package servletsThymeleaf;
 
-import model.serviceDAO.DAO.CustomerDAO;
+import model.serviceDAO.dao.CustomerDAO;
 import model.serviceDAO.entity.Customer;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;

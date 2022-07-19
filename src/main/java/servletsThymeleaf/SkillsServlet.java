@@ -1,8 +1,8 @@
 package servletsThymeleaf;
 
 
-import model.serviceDAO.DAO.DeveloperDAO;
-import model.serviceDAO.DAO.SkillsDAO;
+import model.serviceDAO.dao.DeveloperDAO;
+import model.serviceDAO.dao.SkillsDAO;
 import model.serviceDAO.entity.Developer;
 import model.serviceDAO.entity.Skills;
 import org.thymeleaf.TemplateEngine;
