@@ -1,15 +1,15 @@
-CREATE TABLE developers(
+CREATE TABLE developer(
 id bigint NOT NULL AUTO_INCREMENT,
 first_name varchar(100) NOT NULL,
 second_name varchar(100),
 age INT,
-sex ENUM("MALE", "FEMALE", "UNKNOWN") NOT NULL,
+sex varchar(10) NOT NULL,
 salary INT,
 primary key (id)
 );
 
 
-CREATE TABLE projects(
+CREATE TABLE project(
 id_project bigint NOT NULL AUTO_INCREMENT,
 name_of_project varchar(50) NOT NULL,
 description varchar(1000),

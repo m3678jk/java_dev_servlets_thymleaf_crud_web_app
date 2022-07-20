@@ -1,6 +1,5 @@
 package model.serviceDAO.dao;
 
-;
 import model.hibernate.HibernateUtil;
 import model.serviceDAO.entity.Developer;
 import org.hibernate.Session;

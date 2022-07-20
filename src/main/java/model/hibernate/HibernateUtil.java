@@ -8,16 +8,11 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 
-
 public class HibernateUtil {
-    private static final HibernateUtil INSTANCE;
+    private static HibernateUtil INSTANCE;
     private Flyway flyway;
     @Getter
     private SessionFactory sessionFactory;
-    static {
-        INSTANCE = new HibernateUtil();
-
-    }
 
     private HibernateUtil() {
         String dbUrl = "jdbc:mysql://127.0.0.1:3306/home_work_3";
@@ -40,6 +35,9 @@ public class HibernateUtil {
     }
 
     public static HibernateUtil getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new HibernateUtil();
+        }
         return INSTANCE;
     }
 
