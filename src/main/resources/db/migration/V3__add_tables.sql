@@ -21,14 +21,14 @@ CREATE TABLE project_developer(
     developers_id_developer bigint NOT NULL,
     PRIMARY KEY (projects_id_project,developers_id_developer),
     FOREIGN KEY (projects_id_project) REFERENCES project(id_project),
-    FOREIGN KEY(developers_id_developer) REFERENCES developer(id)
+    FOREIGN KEY(developers_id_developer) REFERENCES developer(id_developer)
 );
 
 CREATE TABLE skills(
     id_skills bigint NOT NULL AUTO_INCREMENT,
-    developer_id bigint NOT NULL ,
+    developer_id_developer bigint NOT NULL ,
     technology varchar(30) NOT NULL,
     level_of_position varchar(30) NOT NULL,
     primary key (id_skills),
-    FOREIGN KEY (developer_id) REFERENCES developer(id)
+    FOREIGN KEY (developer_id_developer) REFERENCES developer(id_developer)
 );

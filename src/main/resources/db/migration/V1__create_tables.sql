@@ -1,11 +1,11 @@
 CREATE TABLE developer(
-id bigint NOT NULL AUTO_INCREMENT,
+id_developer bigint NOT NULL AUTO_INCREMENT,
 first_name varchar(100) NOT NULL,
 second_name varchar(100),
 age INT,
 sex varchar(10) NOT NULL,
 salary INT,
-primary key (id)
+primary key (id_developer)
 );
 
 
@@ -16,8 +16,6 @@ description varchar(1000),
 start_date date,
 primary key (id_project)
 );
-
-
 
 CREATE TABLE company(
 id_company bigint NOT NULL AUTO_INCREMENT,

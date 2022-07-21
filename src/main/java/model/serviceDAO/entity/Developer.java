@@ -15,6 +15,7 @@ public class Developer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Getter
+    @Column(name = "id_developer")
     private long id;
 
     @Column(name = "first_name")
