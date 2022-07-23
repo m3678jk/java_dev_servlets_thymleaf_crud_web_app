@@ -16,7 +16,6 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
-import static servletsThymeleaf.Setting.PATH_TO_TEMPLATES;
 
 @WebServlet("/projects")
 public class ProjectsServlet extends HttpServlet {
@@ -28,7 +27,7 @@ public class ProjectsServlet extends HttpServlet {
         service = new ProjectDAO();
         engine = new TemplateEngine();
         FileTemplateResolver resolver = new FileTemplateResolver();
-        resolver.setPrefix(PATH_TO_TEMPLATES);
+        resolver.setPrefix(new Setting().init());
         resolver.setSuffix(".html");
         resolver.setTemplateMode("HTML5");
         resolver.setOrder(engine.getTemplateResolvers().size());

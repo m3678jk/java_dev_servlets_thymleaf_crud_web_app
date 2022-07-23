@@ -16,7 +16,7 @@ public class DatabaseManager {
     @Getter
     private CustomerDAO customerDAO;
     @Getter
-    private CompaniesDAO companiesDAO;
+    private CompanyDAO companyDAO;
     @Getter
     private SkillsDAO skillsDAO;
 
@@ -26,7 +26,7 @@ public class DatabaseManager {
         projectDAO = new ProjectDAO();
         developerDAO = new DeveloperDAO();
         customerDAO = new CustomerDAO();
-        companiesDAO = new CompaniesDAO();
+        companyDAO = new CompanyDAO();
         skillsDAO = new SkillsDAO();
     }
 }

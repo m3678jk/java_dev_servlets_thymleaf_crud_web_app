@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import static servletsThymeleaf.Setting.PATH_TO_TEMPLATES;
 
 @WebServlet("/developers")
 public class DevelopersServlet extends HttpServlet {
@@ -29,7 +28,7 @@ public class DevelopersServlet extends HttpServlet {
         engine = new TemplateEngine();
         
         FileTemplateResolver resolver = new FileTemplateResolver();
-        resolver.setPrefix(PATH_TO_TEMPLATES);
+        resolver.setPrefix(new Setting().init());
         resolver.setSuffix(".html");
         resolver.setTemplateMode("HTML5");
         resolver.setOrder(engine.getTemplateResolvers().size());

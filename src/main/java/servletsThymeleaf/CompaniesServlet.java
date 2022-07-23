@@ -1,6 +1,6 @@
 package servletsThymeleaf;
 
-import model.serviceDAO.dao.CompaniesDAO;
+import model.serviceDAO.dao.CompanyDAO;
 import model.serviceDAO.entity.Company;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -15,20 +15,18 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import static servletsThymeleaf.Setting.PATH_TO_TEMPLATES;
-
 @WebServlet("/companies")
 public class CompaniesServlet extends HttpServlet {
     private TemplateEngine engine;
-    private CompaniesDAO service;
+    private CompanyDAO service;
 
     @Override
     public void init()  {
 
-        service = new CompaniesDAO();
+        service = new CompanyDAO();
         engine = new TemplateEngine();
         FileTemplateResolver resolver = new FileTemplateResolver();
-        resolver.setPrefix(PATH_TO_TEMPLATES);
+        resolver.setPrefix(new Setting().init());
         resolver.setSuffix(".html");
         resolver.setTemplateMode("HTML5");
         resolver.setOrder(engine.getTemplateResolvers().size());

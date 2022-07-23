@@ -11,19 +11,18 @@ import org.hibernate.cfg.Configuration;
 public class HibernateUtil {
     private static HibernateUtil INSTANCE;
     private Flyway flyway;
+    private PropertiesReader propertiesReader;
     @Getter
     private SessionFactory sessionFactory;
 
     private HibernateUtil() {
-        String dbUrl = "jdbc:mysql://127.0.0.1:3306/home_work_3";
-        String dbUser = "root";
-        String dbPass = "1234";
-
+        propertiesReader = new PropertiesReader();
         flyway = Flyway
                 .configure()
-                .dataSource(dbUrl, dbUser, dbPass).load();
+                .dataSource(propertiesReader.getDbUrl(), propertiesReader.getDbUser(), propertiesReader.getDbPass()).load();
 
         flyway.migrate();
+
         sessionFactory = new Configuration()
                 .addAnnotatedClass(Developer.class)
                 .addAnnotatedClass(Company.class)

@@ -17,13 +17,15 @@ public class Company {
     @Getter
     @Column(name = "id_company")
     private long idCompany;
+
     @Setter
     @Getter
     @Column(name = "name_of_company")
     private String nameOfCompany;
+
     @Setter
     @Getter
-    @Column
+    @Column(name = "address")
     private String address;
 
     @Getter

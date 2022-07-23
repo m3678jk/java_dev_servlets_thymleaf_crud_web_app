@@ -7,7 +7,7 @@ import org.hibernate.Transaction;
 
 import java.util.List;
 
-public class CompaniesDAO implements DAO {
+public class CompanyDAO implements DAO {
     HibernateUtil util = HibernateUtil.getInstance();
 
     public Company getById(long id) {

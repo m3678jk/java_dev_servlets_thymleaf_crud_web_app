@@ -15,14 +15,14 @@ public class RelationManager {
     private ProjectDAO projectDAO;
     private DeveloperDAO developerDAO;
     private CustomerDAO customerDAO;
-    private CompaniesDAO companiesDAO;
+    private CompanyDAO companyDAO;
     private SkillsDAO skillsDAO;
 
     public RelationManager() {
         projectDAO = new ProjectDAO();
         developerDAO = new DeveloperDAO();
         customerDAO = new CustomerDAO();
-        companiesDAO = new CompaniesDAO();
+        companyDAO = new CompanyDAO();
         skillsDAO = new SkillsDAO();
     }
 
@@ -93,7 +93,7 @@ public class RelationManager {
         Session session = util.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
         Project project = projectDAO.getById(projectId);
-        Company company = companiesDAO.getById(companyId);
+        Company company = companyDAO.getById(companyId);
         if (project != null && company != null) {
             project.addCompany(company);
             session.merge(project);
@@ -110,7 +110,7 @@ public class RelationManager {
         Transaction transaction = session.beginTransaction();
 
         Project project = projectDAO.getById(projectId);
-        Company company = companiesDAO.getById(customerId);
+        Company company = companyDAO.getById(customerId);
         if (project != null && company != null) {
             project.removeCompany(company);
             session.merge(project);
