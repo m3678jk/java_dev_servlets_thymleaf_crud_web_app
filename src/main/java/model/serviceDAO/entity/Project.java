@@ -14,7 +14,7 @@ import java.util.Set;
 @Entity
 public class Project {
     @Id
-    @Column(name = "id_project")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
     private long id;

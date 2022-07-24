@@ -15,7 +15,7 @@ public class Developer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Getter
-    @Column(name = "id_developer")
+    @Column(name = "id")
     private long id;
 
     @Column(name = "first_name")

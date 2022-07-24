@@ -1,13 +1,12 @@
 package model.hibernate;
 
-import lombok.Data;
 import lombok.Getter;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
+import java.util.Properties;
 
 @Getter
 public class PropertiesReader {
@@ -16,30 +15,28 @@ public class PropertiesReader {
     private String dbPass;
 
     public PropertiesReader() {
-        List<String> list = null;
+        FileReader reader= null;
         try {
-            String s = Paths.get("hibernate.properties")
+            reader = new FileReader(Paths.get("hibernate.properties")
                     .toAbsolutePath()
                     .toString()
-                    .replace("hibernate.properties", "src/main/resources/hibernate.properties");
-            list = Files.readAllLines(Path.of(s));
-        } catch (IOException e) {
-            e.printStackTrace();
+                    .replace("hibernate.properties", "src/main/resources/hibernate.properties"));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
         }
-        dbUrl = list.stream()
-                .filter(it -> it.contains("hibernate.connection.url"))
-                .map(it -> it.replace("hibernate.connection.url=", ""))
-                .findFirst().get();
 
-        dbUser = list.stream()
-                .filter(it -> it.contains("hibernate.connection.username"))
-                .map(it -> it.replace("hibernate.connection.username=", ""))
-                .findFirst().get();
+        Properties p=new Properties();
+        try {
+            p.load(reader);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
-        dbPass = list.stream()
-                .filter(it -> it.contains("hibernate.connection.password"))
-                .map(it -> it.replace("hibernate.connection.password=", ""))
-                .findFirst().get();
+        dbUrl = p.getProperty("hibernate.connection.url");
+
+        dbUser = p.getProperty("hibernate.connection.username");
+
+        dbPass = p.getProperty("hibernate.connection.password");
 
     }
 

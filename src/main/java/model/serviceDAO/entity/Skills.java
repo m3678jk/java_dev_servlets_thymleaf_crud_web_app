@@ -10,7 +10,8 @@ import java.util.Objects;
 @Table(name = "skills")
 public class Skills {
     @Id
-    @Column(name = "id_skills")
+    @Column(name = "id")
+    @Getter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
