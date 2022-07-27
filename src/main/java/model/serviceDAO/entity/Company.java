@@ -4,6 +4,8 @@ package model.serviceDAO.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -29,6 +31,7 @@ public class Company {
     private String address;
 
     @Getter
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "companies")
     private Set<Project> projects = new HashSet<>();
 

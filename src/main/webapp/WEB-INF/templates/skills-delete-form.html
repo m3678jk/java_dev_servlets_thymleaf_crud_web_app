@@ -1,8 +1,8 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.servletsThymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.servletsThymeleaf.org ">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:schemaLocation="http://www.thymeleaf.org ">
 <head>
-<title>Selects Skills to Update</title>
+<title>Delete Skills</title>
 <meta charset="utf-8" />
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -15,12 +15,12 @@
 		<nav class="navbar navbar-expand-md navbar-dark"
 			style="background-color: tomato">
 			<div>
-				<a href="https://www.javaguides.net" class="navbar-brand"> Skills Management</a>
+				<a href="https://www.javaguides.net" class="navbar-brand"> Developer&Skills Management</a>
 			</div>
 
 			<ul class="navbar-nav">
-				<li><a href="/skills"
-					class="nav-link">Skills</a></li>
+				<li><a href="/developers"
+					class="nav-link">Developers</a></li>
 			</ul>
 		</nav>
 	</header>
@@ -28,7 +28,7 @@
 	<div class="container col-md-5">
 		<div class="card">
 			<div  class="card-body">
-			    <form th:action="'skills?action=edit&id=' + ${skillsId}"  method="post">
+			    <form th:action="'skills?action=delete&id=' + ${id}"  method="post">
 
                     <div >
                         <input type="hidden" name="id" th:value="${id}">
@@ -36,10 +36,13 @@
 
                     <fieldset class="form-group">
                         <label>Skills ID</label>  <input type="text"
-                        name="skillsId" th:text="${skillsId}">
+                        name="skillsId" th:value="${enter}" class="form-control"
+                         required="required">
                     </fieldset>
 
-                    <button type="submit" th:value="${skillsId}" class="btn btn-success">Edit</button>
+
+
+                    <button type="submit" th:value="${id}" class="btn btn-success">Delete</button>
 				</form>
 			</div>
 		</div>

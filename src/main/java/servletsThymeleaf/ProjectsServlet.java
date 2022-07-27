@@ -27,7 +27,8 @@ public class ProjectsServlet extends HttpServlet {
         service = new ProjectDAO();
         engine = new TemplateEngine();
         FileTemplateResolver resolver = new FileTemplateResolver();
-        resolver.setPrefix(new Setting().init());
+        resolver.setPrefix(getServletContext()
+                .getRealPath("WEB-INF/templates/")+"/");
         resolver.setSuffix(".html");
         resolver.setTemplateMode("HTML5");
         resolver.setOrder(engine.getTemplateResolvers().size());

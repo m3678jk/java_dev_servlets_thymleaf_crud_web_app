@@ -2,16 +2,16 @@ CREATE TABLE project_company(
     projects_id bigint NOT NULL,
     companies_id bigint NOT NULL,
     PRIMARY KEY (projects_id, companies_id),
-    FOREIGN KEY (projects_id) REFERENCES project(id),
-    FOREIGN KEY(companies_id) REFERENCES company(id)
+    FOREIGN KEY (projects_id) REFERENCES project(id) ON DELETE CASCADE,
+    FOREIGN KEY(companies_id) REFERENCES company(id) ON DELETE CASCADE
 );
 
 CREATE TABLE project_customer(
     projects_id bigint NOT NULL,
     customers_id bigint NOT NULL,
     PRIMARY KEY (projects_id,customers_id),
-    FOREIGN KEY (projects_id) REFERENCES project(id),
-    FOREIGN KEY(customers_id) REFERENCES customer(id)
+    FOREIGN KEY (projects_id) REFERENCES project(id) ON DELETE CASCADE,
+    FOREIGN KEY(customers_id) REFERENCES customer(id) ON DELETE CASCADE
 );
 
 
@@ -20,8 +20,8 @@ CREATE TABLE project_developer(
     projects_id bigint NOT NULL,
     developers_id bigint NOT NULL,
     PRIMARY KEY (projects_id,developers_id),
-    FOREIGN KEY (projects_id) REFERENCES project(id),
-    FOREIGN KEY(developers_id) REFERENCES developer(id)
+    FOREIGN KEY (projects_id) REFERENCES project(id) ON DELETE CASCADE,
+    FOREIGN KEY(developers_id) REFERENCES developer(id) ON DELETE CASCADE
 );
 
 CREATE TABLE skills(
@@ -30,5 +30,5 @@ CREATE TABLE skills(
     technology varchar(30) NOT NULL,
     level_of_position varchar(30) NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (developer_id) REFERENCES developer(id)
+    FOREIGN KEY (developer_id) REFERENCES developer(id) ON DELETE CASCADE
 );

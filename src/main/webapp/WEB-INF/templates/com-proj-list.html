@@ -1,8 +1,8 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.servletsThymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.servletsThymeleaf.org ">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
 <head>
-<title>Company Management</title>
+<title>Company&Project Management</title>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
@@ -14,7 +14,7 @@
         <nav class="navbar navbar-expand-md navbar-dark"
              style="background-color: tomato">
             <div>
-                <a href="https://www.javaguides.net" class="navbar-brand"> Company Management</a>
+                <a href="https://www.javaguides.net" class="navbar-brand"> Company&Project Management</a>
             </div>
 
             <ul class="navbar-nav">
@@ -29,29 +29,27 @@
         <div class="row">
             <!-- <div class="alert alert-success" *ngIf='message'>{{message}}</div> -->
             <div class="container">
-                <h3 class="text-center">List of Companies</h3>
+                <h3 class="text-center">List of Company&Project </h3>
                 <hr>
                 <div class="container text-left">
-                    <a href="companies?action=new" class="btn btn-success">Add
-                        New Company</a>
+                    <a href="companyProject?action=new" class="btn btn-success">Add
+                        New Company&Project</a>
                 </div>
                 <br>
                 <table class="table table-bordered">
                       <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Address</th>
+                            <th>Company ID</th>
+                            <th>Project ID</th>
                             <th>Actions</th>
                            </tr>
                         </thead>
                         <tbody>
                              <tr th:each ="com : ${list}">
-                                <td th:text="${com.idCompany}"></td>
-                                <td th:text="${com.nameOfCompany}">Name</td>
-                                <td th:text="${com.address}">Address</td>
-                                <td><a th:href="'/companies?action=edit&id=' + ${com.idCompany}">Edit</a>
-                                <a th:href="'/companies?action=delete&id='+ ${com.idCompany}">Delete</a></td>
+                                <td th:text="${com.companies.projects_id_project}"></td>
+                                <td th:text="${com.companies.idCompany}"></td>
+                                <td><a th:href="'/companyProject?action=edit&id=' + ${com.companies.id} + '&idCompany=' + ${com.id}">Edit</a>
+                                <a th:href="'/companyProject?action=delete&id='+ ${com.key}">Delete</a></td>
                              </tr>
                         </tbody>
                 </table>

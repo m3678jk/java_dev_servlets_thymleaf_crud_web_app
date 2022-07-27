@@ -52,7 +52,7 @@ public class Project {
 
     @Setter
     @Getter
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})
     private Set<Customer> customers = new HashSet<>();
 
     public void addCustomer(Customer customer) {

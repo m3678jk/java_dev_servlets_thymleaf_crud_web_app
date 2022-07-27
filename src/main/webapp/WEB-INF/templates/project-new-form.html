@@ -1,8 +1,8 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.servletsThymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.servletsThymeleaf.org ">>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:schemaLocation="http://www.thymeleaf.org ">
 <head>
-<title>Edit Project</title>
+<title>Add New Project</title>
 <meta charset="utf-8" />
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -15,7 +15,7 @@
 		<nav class="navbar navbar-expand-md navbar-dark"
 			style="background-color: tomato">
 			<div>
-				<a href="https://www.javaguides.net" class="navbar-brand"> Company Management</a>
+				<a href="https://www.javaguides.net" class="navbar-brand"> Projects Management</a>
 			</div>
 
 			<ul class="navbar-nav">
@@ -28,31 +28,29 @@
 	<div class="container col-md-5">
 		<div class="card">
 			<div  class="card-body">
-			    <form th:action="'projects?action=update&id=' + ${id}"  method="post">
+			    <form th:action="'projects?action=insert'"  method="post">
 
-                    <div >
-                        <input type="hidden" name="id" th:value="${id}">
-                    </div>
+
 
                     <fieldset class="form-group">
                         <label>Name</label>  <input type="text"
-                        name="nameOfProject" th:value="${existingProj.nameOfProject}" class="form-control"
+                        name="nameOfProject" th:value="${nameOfProject}" class="form-control"
                          required="required">
                     </fieldset>
 
                     <fieldset class="form-group" >
                         <label>Description</label> <input type="text"
-                         name="description" th:value="${existingProj.description}" class="form-control"
+                         name="description" th:value="${description}" class="form-control"
                              required="required">
                     </fieldset>
 
                     <fieldset class="form-group" >
                         <label>Date (yyyy-mm-dd)</label> <input type="text"
-                         name="date" th:value="${existingProj.date}" class="form-control"
+                         name="date" th:value="${date}" class="form-control"
                              required="required">
                     </fieldset>
 
-                    <button type="submit" th:value="${id}" class="btn btn-success">Save</button>
+                    <button type="submit"  class="btn btn-success">Save</button>
 				</form>
 			</div>
 		</div>

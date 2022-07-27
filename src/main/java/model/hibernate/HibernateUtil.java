@@ -15,6 +15,9 @@ public class HibernateUtil {
     @Getter
     private SessionFactory sessionFactory;
 
+
+
+
     private HibernateUtil() {
         propertiesReader = new PropertiesReader();
         flyway = Flyway

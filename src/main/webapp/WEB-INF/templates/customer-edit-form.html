@@ -1,8 +1,8 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.servletsThymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.servletsThymeleaf.org ">>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:schemaLocation="http://www.thymeleaf.org ">
 <head>
-<title>Add New Company</title>
+<title>Edit Customer</title>
 <meta charset="utf-8" />
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -15,12 +15,12 @@
 		<nav class="navbar navbar-expand-md navbar-dark"
 			style="background-color: tomato">
 			<div>
-				<a href="https://www.javaguides.net" class="navbar-brand"> Companies Management</a>
+				<a href="https://www.javaguides.net" class="navbar-brand"> Customer Management</a>
 			</div>
 
 			<ul class="navbar-nav">
-				<li><a href="/companies"
-					class="nav-link">Companies</a></li>
+				<li><a href="/customers"
+					class="nav-link">Customers</a></li>
 			</ul>
 		</nav>
 	</header>
@@ -28,23 +28,27 @@
 	<div class="container col-md-5">
 		<div class="card">
 			<div  class="card-body">
-			    <form th:action="'companies?action=insert'"  method="post">
+			    <form th:action="'customers?action=update&id=' + ${id}"  method="post">
 
-
+                    <div >
+                        <input type="hidden" name="id" th:value="${id}">
+                    </div>
 
                     <fieldset class="form-group">
                         <label>Name</label>  <input type="text"
-                        name="name" th:value="${name}" class="form-control"
+                        name="name" th:value="${existingCustomer.name}" class="form-control"
                          required="required">
                     </fieldset>
 
                     <fieldset class="form-group" >
                         <label>Address</label> <input type="text"
-                         name="address" th:value="${address}" class="form-control"
+                         name="address" th:value="${existingCustomer.address}" class="form-control"
                              required="required">
                     </fieldset>
 
-                    <button type="submit"  class="btn btn-success">Save</button>
+
+
+                    <button type="submit" th:value="${id}" class="btn btn-success">Save</button>
 				</form>
 			</div>
 		</div>
