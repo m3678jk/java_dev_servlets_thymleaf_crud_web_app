@@ -27,8 +27,7 @@ insert into project_developer values
     (2,3)
 ;
 
-
-insert into skills (developer_id,technology ,level_of_position) values
+insert into skills (developer_id, technology ,level_of_position) values
     (1, "JAVA", "Middle"),
     (2, "JS", "Senior"),
     (3, "C_PLUS_PLUS", "Junior"),

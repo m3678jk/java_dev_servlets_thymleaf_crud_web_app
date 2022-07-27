@@ -20,7 +20,6 @@ public class PropertiesReader {
         InputStream reader = loader.getResourceAsStream("hibernate.properties");
 
         Properties p = new Properties();
-        InputStream inputStream = PropertiesReader.class.getClassLoader().getResourceAsStream("hibernate.properties");
         try {
             p.load(reader);
         } catch (IOException e) {
